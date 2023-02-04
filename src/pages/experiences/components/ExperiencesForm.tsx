@@ -24,7 +24,7 @@ const ExperiencesForm = () => {
           label={'თანამდებობა'}
           name={'position'}
           id={'position'}
-          placeholder={''}
+          placeholder={'დეველოპერი, დიზაინერი, ა.შ.'}
           register={register('position', {
             required: {
               value: true,
@@ -49,7 +49,7 @@ const ExperiencesForm = () => {
           label={'დამსაქმებელი'}
           name={'employer'}
           id={'employer'}
-          placeholder={''}
+          placeholder={'დამსაქმებელი'}
           register={register('employer', {
             required: {
               value: true,
@@ -109,7 +109,7 @@ const ExperiencesForm = () => {
           label={'აღწერა'}
           name={'description'}
           id={'description'}
-          placeholder={''}
+          placeholder={'როლი თანამდებობაზე და ზოგადი აღწერა'}
           register={register('description', {
             required: {
               value: true,
