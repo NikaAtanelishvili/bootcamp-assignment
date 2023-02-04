@@ -24,6 +24,7 @@ const ExperiencesForm = () => {
           label={'თანამდებობა'}
           name={'position'}
           id={'position'}
+          styleType={'long'}
           placeholder={'დეველოპერი, დიზაინერი, ა.შ.'}
           register={register('position', {
             required: {
@@ -48,6 +49,7 @@ const ExperiencesForm = () => {
           type={'text'}
           label={'დამსაქმებელი'}
           name={'employer'}
+          styleType={'long'}
           id={'employer'}
           placeholder={'დამსაქმებელი'}
           register={register('employer', {
@@ -76,6 +78,7 @@ const ExperiencesForm = () => {
             label={'დაწყების რიცხვი'}
             name={'startDate'}
             id={'startDate'}
+            styleType={'normal'}
             placeholder={''}
             register={register('startDate', {
               required: {
@@ -91,6 +94,7 @@ const ExperiencesForm = () => {
             type={'date'}
             label={'დამთავრების რიცხვი'}
             name={'endDate'}
+            styleType={'normal'}
             id={'endDate'}
             placeholder={''}
             register={register('endDate', {
@@ -108,6 +112,7 @@ const ExperiencesForm = () => {
           type={'textarea'}
           label={'აღწერა'}
           name={'description'}
+          styleType={'large'}
           id={'description'}
           placeholder={'როლი თანამდებობაზე და ზოგადი აღწერა'}
           register={register('description', {

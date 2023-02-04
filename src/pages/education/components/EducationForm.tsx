@@ -22,6 +22,7 @@ const EducationForm = () => {
           type={'text'}
           label={'სასწავლებელი'}
           name={'school'}
+          styleType={'long'}
           id={'school'}
           placeholder={'სასწავლებელი'}
           register={register('school', {
@@ -42,13 +43,14 @@ const EducationForm = () => {
         )}
       </div>
       {/* Degrees */}
-      <div>{/* WIP */}</div> 
+      <div>{/* WIP */}</div>
       {/* end Date */}
       <div>
         <FormInput
           type={'date'}
           label={'დამთავრების რიცხვი'}
           name={'endDate'}
+          styleType={'normal'}
           id={'endDate'}
           placeholder={''}
           register={register('endDate', {
@@ -65,6 +67,7 @@ const EducationForm = () => {
           type={'textarea'}
           label={'აღწერა'}
           name={'description'}
+          styleType={'large'}
           id={'description'}
           placeholder={'განათლების აღწერა'}
           register={register('description', {

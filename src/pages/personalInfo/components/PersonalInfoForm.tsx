@@ -17,7 +17,7 @@ const PersonalInfoForm = () => {
   } = useForm<PersonalInfoType>()
 
   return (
-    <div className='flex flex-col'>
+    <div className="flex flex-col">
       <div className="flex flex-row justify-between">
         {/* Name */}
         <div>
@@ -25,6 +25,7 @@ const PersonalInfoForm = () => {
             type={'text'}
             label={'სახელი'}
             name={'name'}
+            styleType={'normal'}
             id={'name'}
             placeholder={'ანზორ'}
             register={register('name', {
@@ -55,6 +56,7 @@ const PersonalInfoForm = () => {
             label={'გვარი'}
             name={'lastname'}
             id={'lastname'}
+            styleType={'normal'}
             placeholder={'მუმლაძე'}
             register={register('lastname', {
               required: {
@@ -85,6 +87,7 @@ const PersonalInfoForm = () => {
           label={'პირადი ფოტოს ატვირთვა'}
           name={'image'}
           id={'image'}
+          styleType={'normal'}
           placeholder={''}
           register={register('image', {
             required: {
@@ -100,6 +103,7 @@ const PersonalInfoForm = () => {
           type={'textarea'}
           label={'ჩემ შესახებ (არასავალდებულო)'}
           name={'aboutme'}
+          styleType={'large'}
           id={'aboutme'}
           placeholder={'ზოგადი ინფო შენ შესახებ'}
           register={register('aboutme')}
@@ -116,6 +120,7 @@ const PersonalInfoForm = () => {
           type={'text'}
           label={'ელ.ფოსტა'}
           name={'email'}
+          styleType={'long'}
           id={'email'}
           placeholder={'anzorr666@redberry.ge'}
           register={register('email', {
@@ -142,6 +147,7 @@ const PersonalInfoForm = () => {
           label={'მობილურის ნომერი'}
           name={'phoneNumber'}
           id={'phoneNumber'}
+          styleType={'long'}
           placeholder={'+995 551 12 34 56'}
           register={register('phoneNumber', {
             required: {
