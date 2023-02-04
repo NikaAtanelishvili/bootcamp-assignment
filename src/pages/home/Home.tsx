@@ -10,7 +10,7 @@ const Home = () => {
         <RedberryLogo />
       </div>
       <Link
-        to="/private"
+        to="/personalinfo"
         className="flex justify-center items-center bg-[#1A1A1A] text-[#FFFFFF] font-medium text-xl leading-6 h-[60px] max-w-[464px] rounded-lg"
       >
         რეზიუმეს დამატება
