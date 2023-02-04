@@ -1,14 +1,18 @@
 import { NavigationArrow } from 'components/svgs'
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 interface FormLayoutProps {
-    formTitle: string,
-    page: number
-    children: React.ReactNode
+  formTitle: string
+  page: number
+  back: string | null
+  to: string
+  children: React.ReactNode
 }
 
 const FormLayout: React.FC<FormLayoutProps> = props => {
+  const navigate = useNavigate()
+
   return (
     <div>
       <header>
@@ -26,9 +30,22 @@ const FormLayout: React.FC<FormLayoutProps> = props => {
         </div>
       </header>
       <div>{props.children}</div>
-      <button className="fles justify-center items-center bg-[#6B40E3] rounded max-w-[151px] h-12 font-medium text-[#FFFFFF] text-base leading-5 tracking-[0.08em]">
-        შემდეგი
-      </button>
+      <div className="flex flex-row justify-between">
+        {props.back && (
+          <button
+            onClick={() => navigate(props.back!)}
+            className="fles justify-center items-center bg-[#6B40E3] rounded w-[151px] h-12 font-medium text-[#FFFFFF] text-base leading-5 tracking-[0.08em]"
+          >
+            უკან
+          </button>
+        )}
+        <button
+          onClick={() => navigate(props.to)}
+          className="fles justify-center items-center bg-[#6B40E3] rounded w-[151px] h-12 font-medium text-[#FFFFFF] text-base leading-5 tracking-[0.08em]"
+        >
+          შემდეგი
+        </button>
+      </div>
     </div>
   )
 }
