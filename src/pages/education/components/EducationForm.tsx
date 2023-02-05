@@ -17,52 +17,57 @@ const EducationForm = () => {
   return (
     <div>
       {/* School */}
-      <div>
-        <FormInput
-          type={'text'}
-          label={'სასწავლებელი'}
-          name={'school'}
-          styleType={'long'}
-          id={'school'}
-          placeholder={'სასწავლებელი'}
-          register={register('school', {
-            required: {
-              value: true,
-              message: 'მინუმუმ 2 სიმბოლო',
-            },
-            minLength: {
-              value: 2,
-              message: 'მინუმუმ 2 სიმბოლო',
-            },
-          })}
-        />
-        {errors['school'] && (
-          <p className=" absolute font-light text-sm text-[#2E2E2E] leading-5">
-            {errors.school?.message}
-          </p>
-        )}
+      <div className=" mb-8">
+        <div className=" mb-2">
+          <FormInput
+            type={'text'}
+            label={'სასწავლებელი'}
+            name={'school'}
+            styleType={'long'}
+            id={'school'}
+            placeholder={'სასწავლებელი'}
+            register={register('school', {
+              required: {
+                value: true,
+                message: 'მინუმუმ 2 სიმბოლო',
+              },
+              minLength: {
+                value: 2,
+                message: 'მინუმუმ 2 სიმბოლო',
+              },
+            })}
+          />
+        </div>
+        <p className=" font-light text-sm text-[#2E2E2E] leading-5">
+          მინუმუმ 2 სიმბოლო
+        </p>
       </div>
-      {/* Degrees */}
-      <div>{/* WIP */}</div>
-      {/* end Date */}
-      <div>
-        <FormInput
-          type={'date'}
-          label={'დამთავრების რიცხვი'}
-          name={'endDate'}
-          styleType={'normal'}
-          id={'endDate'}
-          placeholder={''}
-          register={register('endDate', {
-            required: {
-              value: true,
-              message: '',
-            },
-          })}
-        />
+
+      <div className=" mb-8">
+        {/* Degrees */}
+        <div>{/* WIP */}</div>
+
+        {/* end Date */}
+        <div>
+          <FormInput
+            type={'date'}
+            label={'დამთავრების რიცხვი'}
+            name={'endDate'}
+            styleType={'normal'}
+            id={'endDate'}
+            placeholder={''}
+            register={register('endDate', {
+              required: {
+                value: true,
+                message: '',
+              },
+            })}
+          />
+        </div>
       </div>
+
       {/* Description */}
-      <div>
+      <div className=" mb-11">
         <FormInput
           type={'textarea'}
           label={'აღწერა'}
@@ -78,7 +83,9 @@ const EducationForm = () => {
           })}
         />
       </div>
-      <hr />
+
+      <hr className=" mb-11" />
+
       {/* WIP */}
       <button
         className="flex justify-center items-center bg-[#62A1EB] h-12 w-[289px] rounded font-medium text-[#FFFFFF] text-base leading-5"

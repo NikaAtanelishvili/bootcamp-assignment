@@ -18,59 +18,61 @@ const ExperiencesForm = () => {
   return (
     <div>
       {/* Job Position */}
-      <div>
-        <FormInput
-          type={'text'}
-          label={'თანამდებობა'}
-          name={'position'}
-          id={'position'}
-          styleType={'long'}
-          placeholder={'დეველოპერი, დიზაინერი, ა.შ.'}
-          register={register('position', {
-            required: {
-              value: true,
-              message: 'მინუმუმ 2 სიმბოლო',
-            },
-            minLength: {
-              value: 2,
-              message: 'მინუმუმ 2 სიმბოლო',
-            },
-          })}
-        />
-        {errors['position'] && (
-          <p className=" absolute font-light text-sm text-[#2E2E2E] leading-5">
-            {errors.position?.message}
-          </p>
-        )}
+      <div className=" mb-8">
+        <div className=" mb-2">
+          <FormInput
+            type={'text'}
+            label={'თანამდებობა'}
+            name={'position'}
+            id={'position'}
+            styleType={'long'}
+            placeholder={'დეველოპერი, დიზაინერი, ა.შ.'}
+            register={register('position', {
+              required: {
+                value: true,
+                message: 'მინუმუმ 2 სიმბოლო',
+              },
+              minLength: {
+                value: 2,
+                message: 'მინუმუმ 2 სიმბოლო',
+              },
+            })}
+          />
+        </div>
+        <p className=" font-light text-sm text-[#2E2E2E] leading-5">
+          მინუმუმ 2 სიმბოლო
+        </p>
       </div>
+
       {/* Employer */}
-      <div>
-        <FormInput
-          type={'text'}
-          label={'დამსაქმებელი'}
-          name={'employer'}
-          styleType={'long'}
-          id={'employer'}
-          placeholder={'დამსაქმებელი'}
-          register={register('employer', {
-            required: {
-              value: true,
-              message: 'მინუმუმ 2 სიმბოლო',
-            },
-            minLength: {
-              value: 2,
-              message: 'მინუმუმ 2 სიმბოლო',
-            },
-          })}
-        />
-        {errors['employer'] && (
-          <p className=" absolute font-light text-sm text-[#2E2E2E] leading-5">
-            {errors.employer?.message}
-          </p>
-        )}
+      <div className=" mb-8">
+        <div className=" mb-2">
+          <FormInput
+            type={'text'}
+            label={'დამსაქმებელი'}
+            name={'employer'}
+            styleType={'long'}
+            id={'employer'}
+            placeholder={'დამსაქმებელი'}
+            register={register('employer', {
+              required: {
+                value: true,
+                message: 'მინუმუმ 2 სიმბოლო',
+              },
+              minLength: {
+                value: 2,
+                message: 'მინუმუმ 2 სიმბოლო',
+              },
+            })}
+          />
+        </div>
+        <p className=" font-light text-sm text-[#2E2E2E] leading-5">
+          მინუმუმ 2 სიმბოლო
+        </p>
       </div>
+
       {/* Intervals */}
-      <div className="flex flex-row justify-between">
+      <div className="flex flex-row justify-between mb-8">
         {/* Start date */}
         <div>
           <FormInput
@@ -106,8 +108,9 @@ const ExperiencesForm = () => {
           />
         </div>
       </div>
+
       {/* Description */}
-      <div>
+      <div className=" mb-14">
         <FormInput
           type={'textarea'}
           label={'აღწერა'}
@@ -123,7 +126,9 @@ const ExperiencesForm = () => {
           })}
         />
       </div>
-      <hr />
+
+      <hr className=" mb-11" />
+
       {/* WIP */}
       <button
         className="flex justify-center items-center bg-[#62A1EB] h-12 w-[289px] rounded font-medium text-[#FFFFFF] text-base leading-5"
