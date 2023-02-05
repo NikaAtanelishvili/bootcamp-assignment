@@ -1,4 +1,4 @@
-import { FormInput } from 'components'
+import { Input, Textarea } from 'components'
 import { useForm } from 'react-hook-form'
 
 interface ExperiencesFormType {
@@ -20,7 +20,7 @@ const ExperiencesForm = () => {
       {/* Job Position */}
       <div className=" mb-8">
         <div className=" mb-2">
-          <FormInput
+          <Input
             type={'text'}
             label={'თანამდებობა'}
             name={'position'}
@@ -47,7 +47,7 @@ const ExperiencesForm = () => {
       {/* Employer */}
       <div className=" mb-8">
         <div className=" mb-2">
-          <FormInput
+          <Input
             type={'text'}
             label={'დამსაქმებელი'}
             name={'employer'}
@@ -72,10 +72,10 @@ const ExperiencesForm = () => {
       </div>
 
       {/* Intervals */}
-      <div className="flex flex-row justify-between mb-8">
+      <div className="flex flex-row w-full justify-between mb-8">
         {/* Start date */}
-        <div>
-          <FormInput
+        <div className=" w-[46%]">
+          <Input
             type={'date'}
             label={'დაწყების რიცხვი'}
             name={'startDate'}
@@ -91,8 +91,8 @@ const ExperiencesForm = () => {
           />
         </div>
         {/* End date */}
-        <div>
-          <FormInput
+        <div className=" w-[46%]">
+          <Input
             type={'date'}
             label={'დამთავრების რიცხვი'}
             name={'endDate'}
@@ -111,11 +111,10 @@ const ExperiencesForm = () => {
 
       {/* Description */}
       <div className=" mb-14">
-        <FormInput
-          type={'textarea'}
+        <Textarea
+          rows={5}
           label={'აღწერა'}
           name={'description'}
-          styleType={'large'}
           id={'description'}
           placeholder={'როლი თანამდებობაზე და ზოგადი აღწერა'}
           register={register('description', {
@@ -131,7 +130,7 @@ const ExperiencesForm = () => {
 
       {/* WIP */}
       <button
-        className="flex justify-center items-center bg-[#62A1EB] h-12 w-[289px] rounded font-medium text-[#FFFFFF] text-base leading-5"
+        className=" font-Helvetica flex justify-center items-center bg-[#62A1EB] h-12 w-[289px] rounded font-medium text-[#FFFFFF] text-base leading-5"
         type="button"
       >
         მეტი გამოცდილების დამატება

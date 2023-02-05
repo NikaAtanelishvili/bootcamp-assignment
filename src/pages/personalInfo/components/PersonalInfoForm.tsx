@@ -1,5 +1,6 @@
-import { FormInput } from 'components'
+import { Input, Textarea } from 'components'
 import { useForm } from 'react-hook-form'
+import FileInput from './FileInput'
 
 interface PersonalInfoType {
   name: string
@@ -18,11 +19,11 @@ const PersonalInfoForm = () => {
 
   return (
     <div className="flex flex-col">
-      <div className="flex flex-row justify-between">
+      <div className="flex flex-row w-full justify-between mb-14">
         {/* Name */}
-        <div>
+        <div className=" w-[46%]">
           <div className=" mb-2">
-            <FormInput
+            <Input
               type={'text'}
               label={'სახელი'}
               name={'name'}
@@ -45,15 +46,15 @@ const PersonalInfoForm = () => {
               })}
             />
           </div>
-          <p className=" font-light text-sm text-[#2E2E2E] leading-5">
-            მინიმუმ ორი ასო, ქართული ასოები'
+          <p className=" font-Helvetica font-light text-sm text-[#2E2E2E] leading-5">
+            მინიმუმ ორი ასო, ქართული ასოები
           </p>
         </div>
 
         {/* Lastname */}
-        <div>
+        <div className=" w-[46%]">
           <div className=" mb-2">
-            <FormInput
+            <Input
               type={'text'}
               label={'გვარი'}
               name={'lastname'}
@@ -76,20 +77,18 @@ const PersonalInfoForm = () => {
               })}
             />
           </div>
-          <p className=" font-light text-sm text-[#2E2E2E] leading-5">
-            მინიმუმ ორი ასო, ქართული ასოები'
+          <p className=" font-Helvetica font-light text-sm text-[#2E2E2E] leading-5">
+            მინიმუმ ორი ასო, ქართული ასოები
           </p>
         </div>
       </div>
 
       {/* Image */}
       <div className=" mb-12">
-        <FormInput
-          type={'file'}
+        <FileInput
           label={'პირადი ფოტოს ატვირთვა'}
           name={'image'}
           id={'image'}
-          styleType={'normal'}
           placeholder={''}
           register={register('image', {
             required: {
@@ -102,11 +101,10 @@ const PersonalInfoForm = () => {
 
       {/* {About me} */}
       <div className=" mb-8">
-        <FormInput
-          type={'textarea'}
+        <Textarea
+          rows={4}
           label={'ჩემ შესახებ (არასავალდებულო)'}
           name={'aboutme'}
-          styleType={'large'}
           id={'aboutme'}
           placeholder={'ზოგადი ინფო შენ შესახებ'}
           register={register('aboutme')}
@@ -116,7 +114,7 @@ const PersonalInfoForm = () => {
       {/* Email */}
       <div className=" mb-7">
         <div className=" mb-2">
-          <FormInput
+          <Input
             type={'text'}
             label={'ელ.ფოსტა'}
             name={'email'}
@@ -135,7 +133,7 @@ const PersonalInfoForm = () => {
             })}
           />
         </div>
-        <p className=" font-light text-sm text-[#2E2E2E] leading-5">
+        <p className=" font-Helvetica font-light text-sm text-[#2E2E2E] leading-5">
           უნდა მთავრდებოდეს @redberry.ge-თი
         </p>
       </div>
@@ -143,7 +141,7 @@ const PersonalInfoForm = () => {
       {/* Phone number */}
       <div>
         <div className=" mb-2">
-          <FormInput
+          <Input
             type={'text'}
             label={'მობილურის ნომერი'}
             name={'phoneNumber'}
@@ -158,7 +156,7 @@ const PersonalInfoForm = () => {
             })}
           />
         </div>
-        <p className=" font-light text-sm text-[#2E2E2E] leading-5">
+        <p className=" font-Helvetica font-light text-sm text-[#2E2E2E] leading-5">
           უნდა აკმაყოფილებდეს ქართული მობილურის ნომრის ფორმატს
         </p>
       </div>

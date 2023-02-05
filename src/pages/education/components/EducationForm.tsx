@@ -1,4 +1,4 @@
-import { FormInput } from 'components'
+import { Input, Textarea } from 'components'
 import { useForm } from 'react-hook-form'
 
 interface EducationFormType {
@@ -19,7 +19,7 @@ const EducationForm = () => {
       {/* School */}
       <div className=" mb-8">
         <div className=" mb-2">
-          <FormInput
+          <Input
             type={'text'}
             label={'სასწავლებელი'}
             name={'school'}
@@ -49,7 +49,7 @@ const EducationForm = () => {
 
         {/* end Date */}
         <div>
-          <FormInput
+          <Input
             type={'date'}
             label={'დამთავრების რიცხვი'}
             name={'endDate'}
@@ -68,11 +68,10 @@ const EducationForm = () => {
 
       {/* Description */}
       <div className=" mb-11">
-        <FormInput
-          type={'textarea'}
+        <Textarea
+          rows={6}
           label={'აღწერა'}
           name={'description'}
-          styleType={'large'}
           id={'description'}
           placeholder={'განათლების აღწერა'}
           register={register('description', {
@@ -88,7 +87,7 @@ const EducationForm = () => {
 
       {/* WIP */}
       <button
-        className="flex justify-center items-center bg-[#62A1EB] h-12 w-[289px] rounded font-medium text-[#FFFFFF] text-base leading-5"
+        className=" font-Helvetica flex justify-center items-center bg-[#62A1EB] h-12 w-[289px] rounded font-medium text-[#FFFFFF] text-base leading-5"
         type="button"
       >
         სხვა სასწავლებლის დამატება
