@@ -1,6 +1,6 @@
 import { ChangeHandler } from 'react-hook-form'
 
-export interface FormInputType {
+export interface InputProps {
   label: string
   type: string
   name: string
@@ -14,23 +14,23 @@ export interface FormInputType {
   }
 }
 
-const FormInput: React.FC<FormInputType> = props => {
+const Input: React.FC<InputProps> = props => {
   return (
     <div className="flex flex-col">
       <label
-        className=" font-medium text-[#1A1A1A] text-base leading-[21px] mb-2"
+        className=" font-Helvetica font-medium text-[#000000] text-base leading-[21px] mb-2"
         htmlFor={props.id}
       >
         {props.label}
       </label>
+
       <input
         type={props.type}
         name={props.name}
         id={props.id}
-        className={` pl-4 border border-[#BCBCBC] rounded bg-[#FFFFFF] placeholder-[#00000099] font-normal text-base leading-[21px] ${
-          (props.styleType === 'normal' && ' w-[371px] h-12') ||
-          (props.styleType === 'long' && ' w-full h-12') ||
-          (props.styleType === 'large' && 'w-full h-[103px]')
+        className={` font-Helvetica px-4 border border-[#BCBCBC] h-12 rounded bg-[#FFFFFF] placeholder-[#00000099] font-normal text-base leading-[21px] ${
+          (props.styleType === 'normal' && ' w-full') ||
+          (props.styleType === 'long' && ' w-full ')
         }`}
         placeholder={props.placeholder}
         onChange={props.register.onChange}
@@ -41,4 +41,4 @@ const FormInput: React.FC<FormInputType> = props => {
   )
 }
 
-export default FormInput
+export default Input
