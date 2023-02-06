@@ -7,6 +7,7 @@ const PersonalInfo = () => {
       formTitle={'პირადი ინფო'}
       page={1}
       back={null}
+      form={'personalinfo'}
       to={'/experiences'}
     >
       <PersonalInfoForm />

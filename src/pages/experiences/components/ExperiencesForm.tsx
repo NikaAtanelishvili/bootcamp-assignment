@@ -1,5 +1,6 @@
 import { Input, Textarea } from 'components'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 
 interface ExperiencesFormType {
   position: string
@@ -12,19 +13,29 @@ interface ExperiencesFormType {
 const ExperiencesForm = () => {
   const {
     register,
-    formState: { errors },
-  } = useForm<ExperiencesFormType>()
+    handleSubmit,
+    formState: { errors, isSubmitted },
+  } = useForm<ExperiencesFormType>({ mode: 'all' })
+  console.log(errors)
+  const navigate = useNavigate()
 
   return (
-    <div>
+    <form
+      id="experiences"
+      onSubmit={handleSubmit(data => {
+        console.log('submited')
+        return navigate('/education')
+      })}
+    >
       {/* Job Position */}
       <div className=" mb-8">
         <div className=" mb-2">
           <Input
             type={'text'}
+            isSubmitted={isSubmitted}
+            errors={errors['position']}
             label={'თანამდებობა'}
             name={'position'}
-            id={'position'}
             styleType={'long'}
             placeholder={'დეველოპერი, დიზაინერი, ა.შ.'}
             register={register('position', {
@@ -48,11 +59,12 @@ const ExperiencesForm = () => {
       <div className=" mb-8">
         <div className=" mb-2">
           <Input
+            isSubmitted={isSubmitted}
+            errors={errors['employer']}
             type={'text'}
             label={'დამსაქმებელი'}
             name={'employer'}
             styleType={'long'}
-            id={'employer'}
             placeholder={'დამსაქმებელი'}
             register={register('employer', {
               required: {
@@ -76,10 +88,11 @@ const ExperiencesForm = () => {
         {/* Start date */}
         <div className=" w-[46%]">
           <Input
+            isSubmitted={isSubmitted}
+            errors={errors['startDate']}
             type={'date'}
             label={'დაწყების რიცხვი'}
             name={'startDate'}
-            id={'startDate'}
             styleType={'normal'}
             placeholder={''}
             register={register('startDate', {
@@ -93,11 +106,12 @@ const ExperiencesForm = () => {
         {/* End date */}
         <div className=" w-[46%]">
           <Input
+            isSubmitted={isSubmitted}
+            errors={errors['endDate']}
             type={'date'}
             label={'დამთავრების რიცხვი'}
             name={'endDate'}
             styleType={'normal'}
-            id={'endDate'}
             placeholder={''}
             register={register('endDate', {
               required: {
@@ -115,13 +129,12 @@ const ExperiencesForm = () => {
           rows={5}
           label={'აღწერა'}
           name={'description'}
-          id={'description'}
           placeholder={'როლი თანამდებობაზე და ზოგადი აღწერა'}
           register={register('description', {
-            required: {
-              value: true,
-              message: '',
-            },
+            // required: {
+            //   value: true,
+            //   message: '',
+            // },
           })}
         />
       </div>
@@ -135,7 +148,7 @@ const ExperiencesForm = () => {
       >
         მეტი გამოცდილების დამატება
       </button>
-    </div>
+    </form>
   )
 }
 

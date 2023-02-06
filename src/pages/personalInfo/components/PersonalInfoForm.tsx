@@ -1,5 +1,6 @@
 import { Input, Textarea } from 'components'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import FileInput from './FileInput'
 
 interface PersonalInfoType {
@@ -14,23 +15,34 @@ interface PersonalInfoType {
 const PersonalInfoForm = () => {
   const {
     register,
-    formState: { errors },
-  } = useForm<PersonalInfoType>()
+    handleSubmit,
+    formState: { errors, isSubmitted },
+  } = useForm<PersonalInfoType>({ mode: 'all' })
+
+  const navigate = useNavigate()
 
   return (
-    <div className="flex flex-col">
+    <form
+      id="personalinfo"
+      onSubmit={handleSubmit(data => {
+        return navigate('/experiences')
+      })}
+      className="flex flex-col"
+    >
       <div className="flex flex-row w-full justify-between mb-14">
         {/* Name */}
         <div className=" w-[46%]">
           <div className=" mb-2">
             <Input
+              isSubmitted={isSubmitted}
+              errors={errors['name']}
               type={'text'}
               label={'სახელი'}
               name={'name'}
               styleType={'normal'}
-              id={'name'}
               placeholder={'ანზორ'}
               register={register('name', {
+                onChange: e => console.log(e.value),
                 required: {
                   value: true,
                   message: 'მინიმუმ ორი ასო, ქართული ასოები',
@@ -55,10 +67,11 @@ const PersonalInfoForm = () => {
         <div className=" w-[46%]">
           <div className=" mb-2">
             <Input
+              isSubmitted={isSubmitted}
+              errors={errors['lastname']}
               type={'text'}
               label={'გვარი'}
               name={'lastname'}
-              id={'lastname'}
               styleType={'normal'}
               placeholder={'მუმლაძე'}
               register={register('lastname', {
@@ -105,7 +118,6 @@ const PersonalInfoForm = () => {
           rows={4}
           label={'ჩემ შესახებ (არასავალდებულო)'}
           name={'aboutme'}
-          id={'aboutme'}
           placeholder={'ზოგადი ინფო შენ შესახებ'}
           register={register('aboutme')}
         />
@@ -115,11 +127,12 @@ const PersonalInfoForm = () => {
       <div className=" mb-7">
         <div className=" mb-2">
           <Input
+            isSubmitted={isSubmitted}
+            errors={errors['email']}
             type={'text'}
             label={'ელ.ფოსტა'}
             name={'email'}
             styleType={'long'}
-            id={'email'}
             placeholder={'anzorr666@redberry.ge'}
             register={register('email', {
               required: {
@@ -142,10 +155,11 @@ const PersonalInfoForm = () => {
       <div>
         <div className=" mb-2">
           <Input
+            isSubmitted={isSubmitted}
+            errors={errors['phoneNumber']}
             type={'text'}
             label={'მობილურის ნომერი'}
             name={'phoneNumber'}
-            id={'phoneNumber'}
             styleType={'long'}
             placeholder={'+995 551 12 34 56'}
             register={register('phoneNumber', {
@@ -160,7 +174,7 @@ const PersonalInfoForm = () => {
           უნდა აკმაყოფილებდეს ქართული მობილურის ნომრის ფორმატს
         </p>
       </div>
-    </div>
+    </form>
   )
 }
 

@@ -6,6 +6,7 @@ const Education = () => {
     <FormLayout
       formTitle={'განათლება'}
       page={3}
+      form={'education'}
       back={'/experiences'}
       to={'/resume'}
     >

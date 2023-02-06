@@ -1,5 +1,6 @@
 import { Input, Textarea } from 'components'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 
 interface EducationFormType {
   school: string
@@ -11,20 +12,29 @@ interface EducationFormType {
 const EducationForm = () => {
   const {
     register,
-    formState: { errors },
-  } = useForm<EducationFormType>()
+    handleSubmit,
+    formState: { errors, isSubmitted },
+  } = useForm<EducationFormType>({ mode: 'all' })
+
+  const navigate = useNavigate()
 
   return (
-    <div>
+    <form
+      id="education"
+      onSubmit={handleSubmit(data => {
+        return navigate('/resume')
+      })}
+    >
       {/* School */}
       <div className=" mb-8">
         <div className=" mb-2">
           <Input
+            isSubmitted={isSubmitted}
+            errors={errors['school']}
             type={'text'}
             label={'სასწავლებელი'}
             name={'school'}
             styleType={'long'}
-            id={'school'}
             placeholder={'სასწავლებელი'}
             register={register('school', {
               required: {
@@ -51,10 +61,11 @@ const EducationForm = () => {
         <div>
           <Input
             type={'date'}
+            isSubmitted={isSubmitted}
+            errors={errors['endDate']}
             label={'დამთავრების რიცხვი'}
             name={'endDate'}
             styleType={'normal'}
-            id={'endDate'}
             placeholder={''}
             register={register('endDate', {
               required: {
@@ -72,7 +83,6 @@ const EducationForm = () => {
           rows={6}
           label={'აღწერა'}
           name={'description'}
-          id={'description'}
           placeholder={'განათლების აღწერა'}
           register={register('description', {
             required: {
@@ -92,7 +102,7 @@ const EducationForm = () => {
       >
         სხვა სასწავლებლის დამატება
       </button>
-    </div>
+    </form>
   )
 }
 
