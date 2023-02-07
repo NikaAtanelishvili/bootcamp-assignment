@@ -5,6 +5,8 @@ import { Link, useNavigate } from 'react-router-dom'
 interface FormLayoutProps {
   formTitle: string
   page: number
+  form: string
+  formCount: number
   back: string | null
   to: string
   children: React.ReactNode
@@ -13,9 +15,15 @@ interface FormLayoutProps {
 const FormLayout: React.FC<FormLayoutProps> = props => {
   const navigate = useNavigate()
 
+  console.log(props.formCount)
+
   return (
-    <div className=" h-screen max-w-[1098px] px-32 bg-[#F9F9F9]">
-      <div className="relative h-full">
+    <div
+      className={` h-screen ${
+        props.formCount > 1 && 'h-full'
+      } max-w-[1098px] px-32 bg-[#F9F9F9]`}
+    >
+      <div className="relative flex flex-col h-full ">
         <header className=" mb-[69px]">
           <Link
             className=" h-10 w-10 flex justify-center items-center rounded-[50%] bg-[#FFFFFF]"
@@ -34,7 +42,7 @@ const FormLayout: React.FC<FormLayoutProps> = props => {
         </header>
         <div>{props.children}</div>
         <div
-          className={`absolute w-full bottom-16 flex flex-row ${
+          className={` items-end mb-16 flex-grow w-full flex flex-row ${
             props.back ? 'justify-between' : 'justify-end'
           } `}
         >
@@ -47,7 +55,11 @@ const FormLayout: React.FC<FormLayoutProps> = props => {
             </button>
           )}
           <button
-            onClick={() => navigate(props.to)}
+            type="submit"
+            // onClick={() => {
+            //   navigate(props.to)}
+            // }
+            form={props.form}
             className=" font-Helvetica bg-[#6B40E3] rounded w-[151px] h-12 font-medium text-[#FFFFFF] text-base leading-5 tracking-[0.08em]"
           >
             შემდეგი
