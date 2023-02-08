@@ -17,7 +17,7 @@ const PersonalInfoForm = () => {
     register,
     handleSubmit,
     formState: { errors, isSubmitted },
-  } = useForm<PersonalInfoType>({ mode: 'all' })
+  } = useForm<PersonalInfoType>({ mode: 'onChange' })
 
   const navigate = useNavigate()
 
@@ -25,6 +25,8 @@ const PersonalInfoForm = () => {
     <form
       id="personalinfo"
       onSubmit={handleSubmit(data => {
+        console.log(data)
+
         return navigate('/experiences')
       })}
       className="flex flex-col"
@@ -42,7 +44,6 @@ const PersonalInfoForm = () => {
               styleType={'normal'}
               placeholder={'ანზორ'}
               register={register('name', {
-                onChange: e => console.log(e.value),
                 required: {
                   value: true,
                   message: 'მინიმუმ ორი ასო, ქართული ასოები',

@@ -1,5 +1,8 @@
 import { ChangeHandler } from 'react-hook-form'
 import { CheckIcon, ErrorIcon } from './svgs'
+import { useContext } from 'react'
+
+import { InfoContext } from 'context'
 
 export interface InputProps {
   label: string
@@ -17,6 +20,8 @@ export interface InputProps {
 }
 
 const Input: React.FC<InputProps> = props => {
+  const infoCtx = useContext(InfoContext)
+
   return (
     <div className="flex flex-col">
       <label
@@ -44,9 +49,12 @@ const Input: React.FC<InputProps> = props => {
             (props.styleType === 'long' && ' w-full ')
           }`}
           placeholder={props.placeholder}
-          onChange={props.register.onChange}
           onBlur={props.register.onBlur}
           ref={props.register.ref}
+          onChange={e => {
+            props.register.onChange(e)
+            infoCtx.infoHandler({ name: props.name, value: e.target.value })
+          }}
         />
         {props.errors && props.styleType === 'long' && props.isSubmitted && (
           <div className="absolute -right-9">

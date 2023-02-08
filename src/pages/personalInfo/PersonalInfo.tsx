@@ -6,6 +6,7 @@ const PersonalInfo = () => {
     <FormLayout
       formTitle={'პირადი ინფო'}
       page={1}
+      formCount={1}
       back={null}
       form={'personalinfo'}
       to={'/experiences'}

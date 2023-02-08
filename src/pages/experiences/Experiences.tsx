@@ -6,7 +6,7 @@ const Experiences = () => {
   const [formCount, setFormCount] = useState<number>(1)
 
   const formCountHandler = (formCount: number) => {
-    return setFormCount(formCount)
+    return setFormCount(prevState => formCount)
   }
 
   return (

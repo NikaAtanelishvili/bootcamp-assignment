@@ -6,9 +6,9 @@ import { useNavigate } from 'react-router-dom'
 interface ExperiencesFormType {
   position: string
   employer: string
-  startDate: Date
-  endDate: Date
-  description: string
+  startDateExperiences: Date
+  endDateExperiences: Date
+  descriptionExperiences: string
 }
 
 const ExperiencesForm: React.FC<{ formCountHandler: any }> = props => {
@@ -94,13 +94,13 @@ const ExperiencesForm: React.FC<{ formCountHandler: any }> = props => {
               <div className=" w-[46%]">
                 <Input
                   isSubmitted={isSubmitted}
-                  errors={errors['startDate']}
+                  errors={errors['startDateExperiences']}
                   type={'date'}
                   label={'დაწყების რიცხვი'}
-                  name={'startDate'}
+                  name={'startDateExperiences'}
                   styleType={'normal'}
                   placeholder={''}
-                  register={register('startDate', {
+                  register={register('startDateExperiences', {
                     required: {
                       value: true,
                       message: '',
@@ -111,13 +111,13 @@ const ExperiencesForm: React.FC<{ formCountHandler: any }> = props => {
               <div className=" w-[46%]">
                 <Input
                   isSubmitted={isSubmitted}
-                  errors={errors['endDate']}
+                  errors={errors['endDateExperiences']}
                   type={'date'}
                   label={'დამთავრების რიცხვი'}
-                  name={'endDate'}
+                  name={'endDateExperiences'}
                   styleType={'normal'}
                   placeholder={''}
-                  register={register('endDate', {
+                  register={register('endDateExperiences', {
                     required: {
                       value: true,
                       message: '',
@@ -130,9 +130,9 @@ const ExperiencesForm: React.FC<{ formCountHandler: any }> = props => {
               <Textarea
                 rows={5}
                 label={'აღწერა'}
-                name={'description'}
+                name={'descriptionExperiences'}
                 placeholder={'როლი თანამდებობაზე და ზოგადი აღწერა'}
-                register={register('description', {
+                register={register('descriptionExperiences', {
                   // required: {
                   //   value: true,
                   //   message: '',

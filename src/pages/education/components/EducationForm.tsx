@@ -2,12 +2,12 @@ import { Input, Textarea } from 'components'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-
+import { nanoid } from 'nanoid'
 interface EducationFormType {
   school: string
   degree: string
-  endDate: Date
-  description: string
+  endDateEducation: Date
+  descriptionEducation: string
 }
 
 const EducationForm: React.FC<{ formCountHandler: any }> = props => {
@@ -35,7 +35,7 @@ const EducationForm: React.FC<{ formCountHandler: any }> = props => {
     >
       {Array.from(Array(formCount)).map(() => {
         return (
-          <>
+          <div key={nanoid()}>
             <div className=" mb-8">
               <div className=" mb-2">
                 <Input
@@ -71,12 +71,12 @@ const EducationForm: React.FC<{ formCountHandler: any }> = props => {
                 <Input
                   type={'date'}
                   isSubmitted={isSubmitted}
-                  errors={errors['endDate']}
+                  errors={errors['endDateEducation']}
                   label={'დამთავრების რიცხვი'}
-                  name={'endDate'}
+                  name={'endDateEducation'}
                   styleType={'normal'}
                   placeholder={''}
-                  register={register('endDate', {
+                  register={register('endDateEducation', {
                     required: {
                       value: true,
                       message: '',
@@ -89,9 +89,9 @@ const EducationForm: React.FC<{ formCountHandler: any }> = props => {
               <Textarea
                 rows={6}
                 label={'აღწერა'}
-                name={'description'}
+                name={'descriptionEducation'}
                 placeholder={'განათლების აღწერა'}
-                register={register('description', {
+                register={register('descriptionEducation', {
                   required: {
                     value: true,
                     message: '',
@@ -100,7 +100,7 @@ const EducationForm: React.FC<{ formCountHandler: any }> = props => {
               />
               <hr className=" mb-11" />
             </div>
-          </>
+          </div>
         )
       })}
       <button
