@@ -87,15 +87,17 @@ const EducationForm: React.FC<{ formCountHandler: any }> = props => {
             </div>
             <div className=" mb-11">
               <Textarea
+                errors={errors['descriptionEducation']}
+                isSubmitted={isSubmitted}
                 rows={6}
                 label={'აღწერა'}
                 name={'descriptionEducation'}
                 placeholder={'განათლების აღწერა'}
                 register={register('descriptionEducation', {
-                  required: {
-                    value: true,
-                    message: '',
-                  },
+                  // required: {
+                  //   value: true,
+                  //   message: '',
+                  // },
                 })}
               />
               <hr className=" mb-11" />

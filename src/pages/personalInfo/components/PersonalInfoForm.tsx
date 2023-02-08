@@ -116,6 +116,8 @@ const PersonalInfoForm = () => {
       {/* {About me} */}
       <div className=" mb-8">
         <Textarea
+          errors={errors['aboutme']}
+          isSubmitted={isSubmitted}
           rows={4}
           label={'ჩემ შესახებ (არასავალდებულო)'}
           name={'aboutme'}

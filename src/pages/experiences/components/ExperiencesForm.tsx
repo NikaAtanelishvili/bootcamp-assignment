@@ -128,15 +128,17 @@ const ExperiencesForm: React.FC<{ formCountHandler: any }> = props => {
             </div>
             <div className=" mb-14">
               <Textarea
+                errors={errors['descriptionExperiences']}
+                isSubmitted={isSubmitted}
                 rows={5}
                 label={'აღწერა'}
                 name={'descriptionExperiences'}
                 placeholder={'როლი თანამდებობაზე და ზოგადი აღწერა'}
                 register={register('descriptionExperiences', {
-                  // required: {
-                  //   value: true,
-                  //   message: '',
-                  // },
+                  required: {
+                    value: true,
+                    message: '',
+                  },
                 })}
               />
             </div>

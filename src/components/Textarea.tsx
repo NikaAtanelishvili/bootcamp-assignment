@@ -1,10 +1,13 @@
 import { ChangeHandler } from 'react-hook-form'
+import { useContext } from 'react'
+import { InfoContext } from 'context'
 
 export interface TextareaProps {
   label: string
   name: string
-  id: string
   placeholder: string
+  errors: any
+  isSubmitted: boolean
   rows: number
   register: {
     onChange: ChangeHandler
@@ -14,21 +17,34 @@ export interface TextareaProps {
 }
 
 const Textarea: React.FC<TextareaProps> = props => {
+  const infoCtx = useContext(InfoContext)
+  console.log(props.errors)
   return (
     <div className="flex flex-col">
       <label
-        className=" font-Helvetica font-medium text-[#000000] text-base leading-[21px] mb-2"
-        htmlFor={props.id}
+        className={` font-Helvetica font-medium text-[#000000] text-base leading-[21px] mb-2 ${
+          props.errors && props.isSubmitted && 'text-[#E52F2F]'
+        }`}
+        htmlFor={props.name}
       >
         {props.label}
       </label>
-
       <textarea
-        className=" resize-none bg-[#FFFFFF] border border-[#BCBCBC] rounded font-Helvetica font-normal placeholder-[#00000099] text-base leading-[21px] pl-4 pt-3"
+        className={`focus:outline-none focus:border-2 resize-none bg-[#FFFFFF] border border-[#BCBCBC] rounded font-Helvetica font-normal placeholder-[#00000099] text-base leading-[21px] pl-4 pt-3 ${
+          !props.errors &&
+          !props.isSubmitted &&
+          'focus:outline-none focus:border-2'
+        } ${
+          props.errors && props.isSubmitted && 'border-[#EF5050] focus:border'
+        }
+        `}
         name={props.name}
-        id={props.id}
+        id={props.name}
         placeholder={props.placeholder}
-        onChange={props.register.onChange}
+        onChange={e => {
+          props.register.onChange(e)
+          infoCtx.infoHandler({ name: props.name, value: e.target.value })
+        }}
         onBlur={props.register.onBlur}
         rows={props.rows}
       />
