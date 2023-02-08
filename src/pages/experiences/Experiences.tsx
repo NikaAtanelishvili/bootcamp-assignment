@@ -1,4 +1,4 @@
-import { FormLayout } from 'components'
+import { FormLayout, ResumeLayout } from 'components'
 import { useState } from 'react'
 import { ExperiencesForm } from './components'
 
@@ -10,16 +10,21 @@ const Experiences = () => {
   }
 
   return (
-    <FormLayout
-      formTitle={'გამოცდილება'}
-      page={2}
-      formCount={formCount}
-      form={'experiences'}
-      back={'/personalinfo'}
-      to={'/education'}
-    >
-      <ExperiencesForm formCountHandler={formCountHandler} />
-    </FormLayout>
+    <div className="flex flex-row w-full h-screen">
+      <div>
+        <FormLayout
+          formTitle={'გამოცდილება'}
+          page={2}
+          formCount={formCount}
+          form={'experiences'}
+          back={'/personalinfo'}
+          to={'/education'}
+        >
+          <ExperiencesForm formCountHandler={formCountHandler} />
+        </FormLayout>
+      </div>
+      <ResumeLayout />
+    </div>
   )
 }
 

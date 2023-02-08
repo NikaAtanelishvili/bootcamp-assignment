@@ -1,6 +1,7 @@
 import { NavigationArrow } from 'components/svgs'
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import ResumeLayout from './ResumeLayout'
 
 interface FormLayoutProps {
   formTitle: string
@@ -21,7 +22,7 @@ const FormLayout: React.FC<FormLayoutProps> = props => {
     <div
       className={` h-screen ${
         props.formCount > 1 && 'h-full'
-      } max-w-[1098px] px-32 bg-[#F9F9F9]`}
+      } w-[1098px] px-32 bg-[#F9F9F9]`}
     >
       <div className="relative flex flex-col h-full ">
         <header className=" mb-[69px]">
