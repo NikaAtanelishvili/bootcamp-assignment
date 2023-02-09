@@ -3,25 +3,25 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { nanoid } from 'nanoid'
-interface EducationFormType {
-  school: string
-  degree: string
-  endDateEducation: Date
-  descriptionEducation: string
-}
+import DegreeSelect from './DegreeSelect'
 
 const EducationForm: React.FC<{ formCountHandler: any }> = props => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitted },
-  } = useForm<EducationFormType>({ mode: 'all' })
+    setValue,
+  } = useForm<any>({ mode: 'all' })
 
   const [formCount, setFormCount] = useState<number>(1)
 
   const addFormHandler = () => {
     setFormCount(prevState => prevState + 1)
     return props.formCountHandler(formCount)
+  }
+
+  const handleSelect = (name: string, value: string) => {
+    setValue(name, value, { shouldValidate: true })
   }
 
   const navigate = useNavigate()
@@ -33,20 +33,21 @@ const EducationForm: React.FC<{ formCountHandler: any }> = props => {
         return navigate('/resume')
       })}
     >
-      {Array.from(Array(formCount)).map(() => {
+      {Array.from(Array(formCount)).map((_, i: number) => {
         return (
           <div key={nanoid()}>
             <div className=" mb-8">
               <div className=" mb-2">
                 <Input
+                  formCount={i}
                   isSubmitted={isSubmitted}
-                  errors={errors['school']}
+                  errors={errors[`school${i}`]}
                   type={'text'}
                   label={'სასწავლებელი'}
-                  name={'school'}
+                  name={`school${i}`}
                   styleType={'long'}
                   placeholder={'სასწავლებელი'}
-                  register={register('school', {
+                  register={register(`school${i}`, {
                     required: {
                       value: true,
                       message: 'მინუმუმ 2 სიმბოლო',
@@ -62,21 +63,38 @@ const EducationForm: React.FC<{ formCountHandler: any }> = props => {
                 მინუმუმ 2 სიმბოლო
               </p>
             </div>
-            <div className=" mb-8">
+            <div className="flex flex-row w-full justify-between mb-8">
               {/* Degrees */}
-              <div>{/* WIP */}</div>
+              <div className=" w-[46%]">
+                <DegreeSelect
+                  label={'ხარისხი'}
+                  placeholder={'აირჩიეთ ხარისხი'}
+                  name={`degrees${i}`}
+                  errors={errors[`degrees${i}`]}
+                  formCount={i}
+                  isSubmitted={isSubmitted}
+                  handleSelect={handleSelect}
+                  register={register(`degrees${i}`, {
+                    required: {
+                      value: true,
+                      message: '',
+                    },
+                  })}
+                />
+              </div>
 
               {/* end Date */}
-              <div>
+              <div className=" w-[46%]">
                 <Input
+                  formCount={i}
                   type={'date'}
                   isSubmitted={isSubmitted}
-                  errors={errors['endDateEducation']}
+                  errors={errors[`endDateEducation${i}`]}
                   label={'დამთავრების რიცხვი'}
-                  name={'endDateEducation'}
+                  name={`endDateEducation${i}`}
                   styleType={'normal'}
                   placeholder={''}
-                  register={register('endDateEducation', {
+                  register={register(`endDateEducation${i}`, {
                     required: {
                       value: true,
                       message: '',
@@ -87,13 +105,13 @@ const EducationForm: React.FC<{ formCountHandler: any }> = props => {
             </div>
             <div className=" mb-11">
               <Textarea
-                errors={errors['descriptionEducation']}
+                errors={errors[`descriptionEducation${i}`]}
                 isSubmitted={isSubmitted}
                 rows={6}
                 label={'აღწერა'}
-                name={'descriptionEducation'}
+                name={`descriptionEducation${i}`}
                 placeholder={'განათლების აღწერა'}
-                register={register('descriptionEducation', {
+                register={register(`descriptionEducation${i}`, {
                   // required: {
                   //   value: true,
                   //   message: '',
