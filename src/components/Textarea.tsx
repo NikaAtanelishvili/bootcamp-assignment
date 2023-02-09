@@ -18,7 +18,7 @@ export interface TextareaProps {
 
 const Textarea: React.FC<TextareaProps> = props => {
   const infoCtx = useContext(InfoContext)
-  console.log(props.errors)
+
   return (
     <div className="flex flex-col">
       <label
@@ -37,7 +37,7 @@ const Textarea: React.FC<TextareaProps> = props => {
         } ${
           props.errors && props.isSubmitted && 'border-[#EF5050] focus:border'
         }
-        `}
+        ${!props.errors && props.isSubmitted && 'border-[#98E37E]'}`}
         name={props.name}
         id={props.name}
         placeholder={props.placeholder}

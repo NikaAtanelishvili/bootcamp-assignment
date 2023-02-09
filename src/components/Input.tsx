@@ -47,7 +47,7 @@ const Input: React.FC<InputProps> = props => {
           } h-12 rounded bg-[#FFFFFF] placeholder-[#00000099] font-normal text-base leading-[21px] ${
             (props.styleType === 'normal' && ' w-full') ||
             (props.styleType === 'long' && ' w-full ')
-          }`}
+          } ${!props.errors && props.isSubmitted && 'border-[#98E37E]'}`}
           placeholder={props.placeholder}
           onBlur={props.register.onBlur}
           ref={props.register.ref}
