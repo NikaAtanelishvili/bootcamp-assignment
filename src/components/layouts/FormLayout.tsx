@@ -1,7 +1,7 @@
+import HomeButton from 'components/HomeButton'
 import { NavigationArrow } from 'components/svgs'
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import ResumeLayout from './ResumeLayout'
 
 interface FormLayoutProps {
   formTitle: string
@@ -26,12 +26,7 @@ const FormLayout: React.FC<FormLayoutProps> = props => {
     >
       <div className="relative flex flex-col h-full ">
         <header className=" mb-[69px]">
-          <Link
-            className=" h-10 w-10 flex justify-center items-center rounded-[50%] bg-[#FFFFFF]"
-            to="/"
-          >
-            <NavigationArrow />
-          </Link>
+          <HomeButton />
           <div className=" pb-3 flex flex-row justify-between border-b border-[#1A1A1A]">
             <h1 className=" font-Helvetica font-bold text-[#1A1A1A] text-2xl leading-7">
               {props.formTitle}
