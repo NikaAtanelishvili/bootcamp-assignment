@@ -8,24 +8,48 @@ interface InfoContextType {
   email: string
   phoneNumber: string
 
-  position: []
-  employer: []
-  startDateExperiences: []
-  endDateExperiences: []
-  descriptionExperiences: []
+  experiences:
+    | [
+        {
+          position: string
+          employer: string
+          startDateExperiences: string
+          endDateExperiences: string
+          descriptionExperiences: string
+        }
+      ]
+    | []
 
-  school: []
-  degree: []
-  endDateEducation: []
-  descriptionEducation: []
+  educations:
+    | [
+        {
+          school: string
+          degree: string
+          endDateEducation: string
+          descriptionEducation: string
+        }
+      ]
+    | []
 
   infoHandler: any
+  clearDataHandler: any
 }
 
 interface InfoHandlerProps {
   name: string
   value: string
+  formCount: number
 }
+
+/*
+experiences: [{
+  position: ''
+  empluer: ''
+  startDate: ''
+  endDate: ''
+  descriptipn: ''
+}]
+*/
 
 export const InfoContext = React.createContext<InfoContextType>({
   name: '',
@@ -35,19 +59,37 @@ export const InfoContext = React.createContext<InfoContextType>({
   email: '',
   phoneNumber: '',
 
-  position: [],
-  employer: [],
-  startDateExperiences: [],
-  endDateExperiences: [],
-  descriptionExperiences: [],
+  experiences: [
+    {
+      position: '',
+      employer: '',
+      startDateExperiences: '',
+      endDateExperiences: '',
+      descriptionExperiences: '',
+    },
+  ],
 
-  school: [],
-  degree: [],
-  endDateEducation: [],
-  descriptionEducation: [],
+  educations: [
+    {
+      school: '',
+      degree: '',
+      endDateEducation: '',
+      descriptionEducation: '',
+    },
+  ],
 
   infoHandler: () => {},
+  clearDataHandler: () => {},
 })
+
+const setExperiencesHandler = (
+  prevState: any,
+  value: any,
+  formCount: number
+) => {
+  prevState[formCount] = { ...prevState[formCount], ...value }
+  return [...prevState].flat()
+}
 
 export const InfoContextProvider: React.FC<{ children: ReactNode }> = props => {
   const [name, setName] = useState<string>('')
@@ -57,16 +99,9 @@ export const InfoContextProvider: React.FC<{ children: ReactNode }> = props => {
   const [lastname, setLastname] = useState<string>('')
   const [phoneNumber, setPhoneNumber] = useState<string>('')
 
-  const [position, setPosition] = useState<any>([])
-  const [employer, setEmployer] = useState<any>([])
-  const [startDateExperiences, setStartDateExperiences] = useState<any>([])
-  const [endDateExperiences, setEndDateExperiences] = useState<any>([])
-  const [descriptionExperiences, setDescriptionExperiences] = useState<any>([])
+  const [experiences, setExperiences] = useState<any>([])
 
-  const [school, setSchool] = useState<any>([])
-  const [degree, setDegree] = useState<any>([])
-  const [endDateEducation, setEndDateEducation] = useState<any>([])
-  const [descriptionEducation, setDescriptionEducation] = useState<any>([])
+  const [educations, setEducations] = useState<[]>([])
 
   const infoHandler = (props: InfoHandlerProps) => {
     props.name === 'name' && setName(props.value)
@@ -76,21 +111,107 @@ export const InfoContextProvider: React.FC<{ children: ReactNode }> = props => {
     props.name === 'lastname' && setLastname(props.value)
     props.name === 'phoneNumber' && setPhoneNumber(props.value)
 
-    props.name === 'position' && setPosition(position.push(props.value))
-    props.name === 'employer' && setEmployer(employer.push(props.value))
-    props.name === 'startDateExperiences' &&
-      setStartDateExperiences(startDateExperiences.push(props.value))
-    props.name === 'endDateExperiences' &&
-      setEndDateExperiences(endDateExperiences.push(props.value))
-    props.name === 'descriptionExperiences' &&
-      setDescriptionExperiences(descriptionExperiences.push(props.value))
+    if (props.formCount !== undefined) {
+      // Position
+      props.name.includes('position') &&
+        setExperiences((prevState: any) =>
+          setExperiencesHandler(
+            prevState,
+            { position: props.value },
+            props.formCount
+          )
+        )
 
-    props.name === 'school' && setSchool(school.push(props.value))
-    props.name === 'degree' && setDegree(degree.push(props.value))
-    props.name === 'endDateEducation' &&
-      setEndDateEducation(endDateEducation.push(props.value))
-    props.name === 'descriptionEducation' &&
-      setDescriptionEducation(descriptionEducation.push(props.value))
+      // Employer
+      props.name.includes('employer') &&
+        setExperiences((prevState: any) =>
+          setExperiencesHandler(
+            prevState,
+            { employer: props.value },
+            props.formCount
+          )
+        )
+
+      // Start date experiences
+      props.name.includes('startDateExperiences') &&
+        setExperiences((prevState: any) =>
+          setExperiencesHandler(
+            prevState,
+            { startDateExperiences: props.value },
+            props.formCount
+          )
+        )
+
+      // end date experiences
+      props.name.includes('endDateExperiences') &&
+        setExperiences((prevState: any) =>
+          setExperiencesHandler(
+            prevState,
+            { endDateExperiences: props.value },
+            props.formCount
+          )
+        )
+      // description experiences
+      props.name.includes('descriptionExperiences') &&
+        setExperiences((prevState: any) =>
+          setExperiencesHandler(
+            prevState,
+            { descriptionExperiences: props.value },
+            props.formCount
+          )
+        )
+
+      // School
+      props.name.includes('school') &&
+        setExperiences((prevState: any) =>
+          setExperiencesHandler(
+            prevState,
+            { school: props.value },
+            props.formCount
+          )
+        )
+
+      // Degree
+      props.name.includes('degree') &&
+        setExperiences((prevState: any) =>
+          setExperiencesHandler(
+            prevState,
+            { degree: props.value },
+            props.formCount
+          )
+        )
+      
+      // End date education
+      props.name.includes('endDateEducation') &&
+        setExperiences((prevState: any) =>
+          setExperiencesHandler(
+            prevState,
+            { endDateEducation: props.value },
+            props.formCount
+          )
+        )
+
+      // Description education
+      props.name.includes('descriptionEducation') &&
+        setExperiences((prevState: any) =>
+          setExperiencesHandler(
+            prevState,
+            { descriptionEducation: props.value },
+            props.formCount
+          )
+        )
+    }
+  }
+
+  const clearDataHandler = () => {
+    setName('')
+    setLastname('')
+    setImage('')
+    setAboutme('')
+    setPhoneNumber('')
+
+    setExperiences([])
+    setEducations([])
   }
 
   const contextValue: InfoContextType = {
@@ -101,18 +222,12 @@ export const InfoContextProvider: React.FC<{ children: ReactNode }> = props => {
     email: email,
     phoneNumber: phoneNumber,
 
-    position: position,
-    employer: employer,
-    startDateExperiences: startDateExperiences,
-    endDateExperiences: endDateExperiences,
-    descriptionExperiences: descriptionExperiences,
+    experiences: experiences,
 
-    school: school,
-    degree: degree,
-    endDateEducation: endDateEducation,
-    descriptionEducation: descriptionEducation,
+    educations: educations,
 
     infoHandler: infoHandler,
+    clearDataHandler: clearDataHandler,
   }
 
   return (
