@@ -1,9 +1,10 @@
 import { Input, Textarea } from 'components'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { nanoid } from 'nanoid'
 import DegreeSelect from './DegreeSelect'
+import { InfoContext } from 'context'
 
 const EducationForm: React.FC<{ formCountHandler: any }> = props => {
   const {
@@ -12,6 +13,8 @@ const EducationForm: React.FC<{ formCountHandler: any }> = props => {
     formState: { errors, isSubmitted },
     setValue,
   } = useForm<any>({ mode: 'all' })
+
+  const infoCtx = useContext(InfoContext)
 
   const [formCount, setFormCount] = useState<number>(1)
 
@@ -24,21 +27,53 @@ const EducationForm: React.FC<{ formCountHandler: any }> = props => {
     setValue(name, value, { shouldValidate: true })
   }
 
+  const sendCV = async () => {
+    const cv = {
+      name: infoCtx.name,
+      surname: infoCtx.surname,
+      phone_number: infoCtx.phone_number,
+      about_me: infoCtx.about_me,
+      image: infoCtx.image,
+      experiences: infoCtx.experiences,
+      education: infoCtx.educations,
+    }
+
+    const request = await fetch(
+      'https://resume.redberryinternship.ge/api/cvs',
+      {
+        method: 'POST',
+        body: JSON.stringify(cv),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+
+    const response = await request.json()
+
+    if (response.status === 201) {
+      navigate('/resume')
+    }
+    return false
+  }
+
   const navigate = useNavigate()
 
   return (
     <form
       id="education"
       onSubmit={handleSubmit(data => {
-        return navigate('/resume')
+        sendCV()
       })}
     >
       {Array.from(Array(formCount)).map((_, i: number) => {
         return (
           <div key={nanoid()}>
+            {/* School */}
             <div className=" mb-8">
               <div className=" mb-2">
                 <Input
+                  value={''}
                   formCount={i}
                   isSubmitted={isSubmitted}
                   errors={errors[`school${i}`]}
@@ -63,6 +98,7 @@ const EducationForm: React.FC<{ formCountHandler: any }> = props => {
                 მინუმუმ 2 სიმბოლო
               </p>
             </div>
+            {/* Degrees - Due date */}
             <div className="flex flex-row w-full justify-between mb-8">
               {/* Degrees */}
               <div className=" w-[46%]">
@@ -83,9 +119,10 @@ const EducationForm: React.FC<{ formCountHandler: any }> = props => {
                 />
               </div>
 
-              {/* end Date */}
+              {/* Due date */}
               <div className=" w-[46%]">
                 <Input
+                  value={''}
                   formCount={i}
                   type={'date'}
                   isSubmitted={isSubmitted}
@@ -103,8 +140,10 @@ const EducationForm: React.FC<{ formCountHandler: any }> = props => {
                 />
               </div>
             </div>
+            {/* Description */}
             <div className=" mb-11">
               <Textarea
+                formCount={i}
                 errors={errors[`descriptionEducation${i}`]}
                 isSubmitted={isSubmitted}
                 rows={6}
