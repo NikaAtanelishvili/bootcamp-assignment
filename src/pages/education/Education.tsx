@@ -9,7 +9,7 @@ const Education = () => {
     return setFormCount(formCount)
   }
   return (
-    <div>
+    <div className="flex flex-row w-full h-screen">
       <div>
         <FormLayout
           formTitle={'განათლება'}
