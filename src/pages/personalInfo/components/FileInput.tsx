@@ -1,9 +1,12 @@
+import { InfoContext } from 'context'
+import { useContext } from 'react'
 import { ChangeHandler } from 'react-hook-form'
 
 export interface FileInputProps {
   label: string
   name: string
   id: string
+  formCount: number | undefined
   placeholder: string
   register: {
     onChange: ChangeHandler
@@ -13,6 +16,8 @@ export interface FileInputProps {
 }
 
 const FileInput: React.FC<FileInputProps> = props => {
+  const infoCtx = useContext(InfoContext)
+
   return (
     <div className="flex flex-row gap-5 items-center">
       <label
@@ -32,7 +37,14 @@ const FileInput: React.FC<FileInputProps> = props => {
         type="file"
         name={props.name}
         id={props.id}
-        onChange={props.register.onChange}
+        onChange={e => {
+          props.register.onChange(e)
+          infoCtx.infoHandler({
+            name: props.name,
+            value: e.target.value,
+            formCount: props.formCount,
+          })
+        }}
         onBlur={props.register.onBlur}
         ref={props.register.ref}
         className=" hidden"
