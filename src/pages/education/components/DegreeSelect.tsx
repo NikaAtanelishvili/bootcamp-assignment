@@ -1,5 +1,6 @@
+import { InfoContext } from 'context'
 import { nanoid } from 'nanoid'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { ChangeHandler } from 'react-hook-form'
 
 export interface SelectProps {
@@ -21,6 +22,8 @@ const DegreeSelect: React.FC<SelectProps> = props => {
   const [degrees, setDegrees] = useState<any>([])
   const [dropdownStatus, setDropdownStatus] = useState<boolean>(false)
   const [selectValue, setSelectValue] = useState<string>()
+
+  const infoCtx = useContext(InfoContext)
 
   useEffect(() => {
     ;(async () => {
@@ -77,6 +80,12 @@ const DegreeSelect: React.FC<SelectProps> = props => {
                     onClick={() => {
                       props.handleSelect(props.name, degree.title)
                       setSelectValue(degree.title)
+
+                      infoCtx.infoHandler({
+                        name: props.name,
+                        value: degree.title,
+                        formCount: props.formCount,
+                      })
                     }}
                     key={nanoid()}
                     className=" cursor-pointer py-[10px] pl-4 bg-[#FFFFFF] font-normal font-Helvetica text-[#1A1A1A] text-base leading-[21px] hover:bg-[#C3DCEE]"
