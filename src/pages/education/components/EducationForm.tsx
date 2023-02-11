@@ -142,21 +142,50 @@ const EducationForm: React.FC<{ formCountHandler: any }> = props => {
             </div>
             {/* Description */}
             <div className=" mb-11">
-              <Textarea
-                formCount={i}
-                errors={errors[`descriptionEducation${i}`]}
-                isSubmitted={isSubmitted}
-                rows={6}
-                label={'აღწერა'}
-                name={`descriptionEducation${i}`}
-                placeholder={'განათლების აღწერა'}
-                register={register(`descriptionEducation${i}`, {
-                  // required: {
-                  //   value: true,
-                  //   message: '',
-                  // },
-                })}
-              />
+              <div className="flex flex-col">
+                <label
+                  className={` font-Helvetica font-medium text-[#000000] text-base leading-[21px] mb-2 ${
+                    errors[`descriptionEducation${i}`] &&
+                    isSubmitted &&
+                    'text-[#E52F2F]'
+                  }`}
+                  htmlFor={`descriptionEducation${i}`}
+                >
+                  განათლების აღწერა
+                </label>
+                <textarea
+                  className={`focus:outline-none focus:border-2 resize-none bg-[#FFFFFF] border border-[#BCBCBC] rounded font-Helvetica font-normal placeholder-[#00000099] w-full text-base leading-[21px] pl-4 pt-3 ${
+                    !errors[`descriptionEducation${i}`] &&
+                    !isSubmitted &&
+                    'focus:outline-none focus:border-2'
+                  } ${
+                    errors[`descriptionEducation${i}`] &&
+                    isSubmitted &&
+                    'border-[#EF5050] focus:border'
+                  }
+          ${
+            !errors[`descriptionEducation${i}`] &&
+            isSubmitted &&
+            'border-[#98E37E]'
+          }`}
+                  id={`descriptionEducation${i}`}
+                  placeholder={'განათლების აღწერა'}
+                  rows={6}
+                  {...register(`descriptionEducation${i}`, {
+                    required: {
+                      value: true,
+                      message: '',
+                    },
+                    onChange(e) {
+                      infoCtx.infoHandler({
+                        name: `descriptionEducation${i}`,
+                        value: e.target.value,
+                        formCount: i,
+                      })
+                    },
+                  })}
+                />
+              </div>
               <hr className=" mb-11" />
             </div>
           </div>

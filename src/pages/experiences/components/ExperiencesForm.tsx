@@ -1,22 +1,18 @@
-import { Input, Textarea } from 'components'
-import { useState } from 'react'
+import { Input } from 'components'
+import { InfoContext } from 'context'
+import { nanoid } from 'nanoid'
+import { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-
-interface ExperiencesFormType {
-  position: string
-  employer: string
-  startDateExperiences: Date
-  endDateExperiences: Date
-  descriptionExperiences: string
-}
 
 const ExperiencesForm: React.FC<{ formCountHandler: any }> = props => {
   const {
     register,
     handleSubmit,
+    getValues,
+    setValue,
     formState: { errors, isSubmitted },
-  } = useForm<ExperiencesFormType>({ mode: 'all' })
+  } = useForm<any>({ mode: 'all' })
 
   const [formCount, setFormCount] = useState<number>(1)
 
@@ -26,7 +22,7 @@ const ExperiencesForm: React.FC<{ formCountHandler: any }> = props => {
   }
 
   const navigate = useNavigate()
-
+  const infoCtx = useContext(InfoContext)
   return (
     <form
       id="experiences"
@@ -35,20 +31,23 @@ const ExperiencesForm: React.FC<{ formCountHandler: any }> = props => {
         return navigate('/education')
       })}
     >
-      {Array.from(Array(formCount)).map(() => {
+      {Array.from(Array(formCount)).map((_, i: number) => {
         return (
-          <>
+          <div key={nanoid()}>
+            {/* position */}
             <div className=" mb-8">
               <div className=" mb-2">
                 <Input
+                  value={''}
+                  formCount={i}
                   type={'text'}
                   isSubmitted={isSubmitted}
-                  errors={errors['position']}
+                  errors={errors[`position${i}`]}
                   label={'თანამდებობა'}
-                  name={'position'}
+                  name={`position${i}`}
                   styleType={'long'}
                   placeholder={'დეველოპერი, დიზაინერი, ა.შ.'}
-                  register={register('position', {
+                  register={register(`position${i}`, {
                     required: {
                       value: true,
                       message: 'მინუმუმ 2 სიმბოლო',
@@ -64,17 +63,20 @@ const ExperiencesForm: React.FC<{ formCountHandler: any }> = props => {
                 მინუმუმ 2 სიმბოლო
               </p>
             </div>
+            {/* employer */}
             <div className=" mb-8">
               <div className=" mb-2">
                 <Input
+                  value={''}
+                  formCount={i}
                   isSubmitted={isSubmitted}
-                  errors={errors['employer']}
+                  errors={errors[`employer${i}`]}
                   type={'text'}
                   label={'დამსაქმებელი'}
-                  name={'employer'}
+                  name={`employer${i}`}
                   styleType={'long'}
                   placeholder={'დამსაქმებელი'}
-                  register={register('employer', {
+                  register={register(`employer${i}`, {
                     required: {
                       value: true,
                       message: 'მინუმუმ 2 სიმბოლო',
@@ -90,17 +92,21 @@ const ExperiencesForm: React.FC<{ formCountHandler: any }> = props => {
                 მინუმუმ 2 სიმბოლო
               </p>
             </div>
+            {/* Start date - Due date */}
             <div className="flex flex-row w-full justify-between mb-8">
+              {/* Start date */}
               <div className=" w-[46%]">
                 <Input
+                  value={''}
+                  formCount={i}
                   isSubmitted={isSubmitted}
-                  errors={errors['startDateExperiences']}
+                  errors={errors[`startDateExperiences${i}`]}
                   type={'date'}
                   label={'დაწყების რიცხვი'}
-                  name={'startDateExperiences'}
+                  name={`startDateExperiences${i}`}
                   styleType={'normal'}
                   placeholder={''}
-                  register={register('startDateExperiences', {
+                  register={register(`startDateExperiences${i}`, {
                     required: {
                       value: true,
                       message: '',
@@ -108,16 +114,19 @@ const ExperiencesForm: React.FC<{ formCountHandler: any }> = props => {
                   })}
                 />
               </div>
+              {/* Due date */}
               <div className=" w-[46%]">
                 <Input
+                  value={''}
+                  formCount={i}
                   isSubmitted={isSubmitted}
-                  errors={errors['endDateExperiences']}
+                  errors={errors[`endDateExperiences${i}`]}
                   type={'date'}
                   label={'დამთავრების რიცხვი'}
-                  name={'endDateExperiences'}
+                  name={`endDateExperiences${i}`}
                   styleType={'normal'}
                   placeholder={''}
-                  register={register('endDateExperiences', {
+                  register={register(`endDateExperiences${i}`, {
                     required: {
                       value: true,
                       message: '',
@@ -126,25 +135,55 @@ const ExperiencesForm: React.FC<{ formCountHandler: any }> = props => {
                 />
               </div>
             </div>
+            {/* Description */}
             <div className=" mb-14">
-              <Textarea
-                errors={errors['descriptionExperiences']}
-                isSubmitted={isSubmitted}
-                rows={5}
-                label={'აღწერა'}
-                name={'descriptionExperiences'}
-                placeholder={'როლი თანამდებობაზე და ზოგადი აღწერა'}
-                register={register('descriptionExperiences', {
-                  required: {
-                    value: true,
-                    message: '',
-                  },
-                })}
-              />
+              <div className="flex flex-col">
+                <label
+                  className={` font-Helvetica font-medium text-[#000000] text-base leading-[21px] mb-2 ${
+                    errors[`descriptionExperiences${i}`] &&
+                    isSubmitted &&
+                    'text-[#E52F2F]'
+                  }`}
+                  htmlFor={`descriptionExperiences${i}`}
+                >
+                  აღწერა
+                </label>
+                <textarea
+                  className={`focus:outline-none focus:border-2 resize-none bg-[#FFFFFF] border border-[#BCBCBC] rounded font-Helvetica font-normal placeholder-[#00000099] w-full text-base leading-[21px] pl-4 pt-3 ${
+                    !errors[`descriptionExperiences${i}`] &&
+                    !isSubmitted &&
+                    'focus:outline-none focus:border-2'
+                  } ${
+                    errors[`descriptionExperiences${i}`] &&
+                    isSubmitted &&
+                    'border-[#EF5050] focus:border'
+                  }
+                ${
+                  !errors[`descriptionExperiences${i}`] &&
+                  isSubmitted &&
+                  'border-[#98E37E]'
+                }`}
+                  id={`descriptionExperiences${i}`}
+                  placeholder={'როლი თანამდებობაზე და ზოგადი აღწერა'}
+                  {...register(`descriptionExperiences${i}`, {
+                    required: {
+                      value: true,
+                      message: '',
+                    },
+                    onChange(e) {
+                      infoCtx.infoHandler({
+                        name: `descriptionExperiences${i}`,
+                        value: e.target.value,
+                        formCount: i,
+                      })
+                    },
+                  })}
+                  rows={5}
+                />
+              </div>
             </div>
-
             <hr className=" mb-11" />
-          </>
+          </div>
         )
       })}
       <button

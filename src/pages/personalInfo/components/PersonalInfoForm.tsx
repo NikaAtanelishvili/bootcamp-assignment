@@ -1,4 +1,6 @@
-import { Input, Textarea } from 'components'
+import { Input } from 'components'
+import { InfoContext } from 'context'
+import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import FileInput from './FileInput'
@@ -16,9 +18,11 @@ const PersonalInfoForm = () => {
   const {
     register,
     handleSubmit,
+
     formState: { errors, isSubmitted },
   } = useForm<PersonalInfoType>({ mode: 'onChange' })
 
+  const infoCtx = useContext(InfoContext)
   const navigate = useNavigate()
 
   return (
@@ -36,6 +40,7 @@ const PersonalInfoForm = () => {
         <div className=" w-[46%]">
           <div className=" mb-2">
             <Input
+              value={''}
               isSubmitted={isSubmitted}
               errors={errors['name']}
               type={'text'}
@@ -57,6 +62,7 @@ const PersonalInfoForm = () => {
                   message: 'მინიმუმ ორი ასო, ქართული ასოები',
                 },
               })}
+              formCount={undefined}
             />
           </div>
           <p className=" font-Helvetica font-light text-sm text-[#2E2E2E] leading-5">
@@ -68,6 +74,8 @@ const PersonalInfoForm = () => {
         <div className=" w-[46%]">
           <div className=" mb-2">
             <Input
+              value={''}
+              formCount={undefined}
               isSubmitted={isSubmitted}
               errors={errors['lastname']}
               type={'text'}
@@ -100,6 +108,7 @@ const PersonalInfoForm = () => {
       {/* Image */}
       <div className=" mb-12">
         <FileInput
+          formCount={undefined}
           label={'პირადი ფოტოს ატვირთვა'}
           name={'image'}
           id={'image'}
@@ -115,21 +124,49 @@ const PersonalInfoForm = () => {
 
       {/* {About me} */}
       <div className=" mb-8">
-        <Textarea
-          errors={errors['aboutme']}
-          isSubmitted={isSubmitted}
-          rows={4}
-          label={'ჩემ შესახებ (არასავალდებულო)'}
-          name={'aboutme'}
-          placeholder={'ზოგადი ინფო შენ შესახებ'}
-          register={register('aboutme')}
-        />
+        <div className="flex flex-col">
+          <label
+            className={` font-Helvetica font-medium text-[#000000] text-base leading-[21px] mb-2 ${
+              errors['aboutme'] && isSubmitted && 'text-[#E52F2F]'
+            }`}
+            htmlFor={'aboutme'}
+          >
+            ჩემ შესახებ (არასავალდებულო)
+          </label>
+          <textarea
+            className={`focus:outline-none focus:border-2 resize-none bg-[#FFFFFF] border border-[#BCBCBC] rounded font-Helvetica font-normal placeholder-[#00000099] w-full text-base leading-[21px] pl-4 pt-3 ${
+              !errors['aboutme'] &&
+              !isSubmitted &&
+              'focus:outline-none focus:border-2'
+            } ${
+              errors['aboutme'] &&
+              isSubmitted &&
+              'border-[#EF5050] focus:border'
+            }
+          ${!errors['aboutme'] && isSubmitted && 'border-[#98E37E]'}`}
+            id={`aboutme`}
+            placeholder={'ზოგადი ინფო შენ შესახებ'}
+            rows={4}
+            {...(register(`aboutme`),
+            {
+              onChange(e) {
+                infoCtx.infoHandler({
+                  name: `aboutme`,
+                  value: e.target.value,
+                  formCount: undefined,
+                })
+              },
+            })}
+          />
+        </div>
       </div>
 
       {/* Email */}
       <div className=" mb-7">
         <div className=" mb-2">
           <Input
+            value={''}
+            formCount={undefined}
             isSubmitted={isSubmitted}
             errors={errors['email']}
             type={'text'}
@@ -158,6 +195,8 @@ const PersonalInfoForm = () => {
       <div>
         <div className=" mb-2">
           <Input
+            value={''}
+            formCount={undefined}
             isSubmitted={isSubmitted}
             errors={errors['phoneNumber']}
             type={'text'}
