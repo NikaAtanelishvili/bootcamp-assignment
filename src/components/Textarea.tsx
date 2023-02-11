@@ -8,6 +8,7 @@ export interface TextareaProps {
   placeholder: string
   errors: any
   isSubmitted: boolean
+  formCount: number | undefined
   rows: number
   register: {
     onChange: ChangeHandler
@@ -43,7 +44,12 @@ const Textarea: React.FC<TextareaProps> = props => {
         placeholder={props.placeholder}
         onChange={e => {
           props.register.onChange(e)
-          infoCtx.infoHandler({ name: props.name, value: e.target.value })
+
+          infoCtx.infoHandler({
+            name: props.name,
+            value: e.target.value,
+            formCount: props.formCount,
+          })
         }}
         onBlur={props.register.onBlur}
         rows={props.rows}
