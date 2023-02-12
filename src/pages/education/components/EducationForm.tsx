@@ -29,14 +29,18 @@ const EducationForm: React.FC<{ formCountHandler: any }> = props => {
 
       for (let [name, value] of Object.entries(values)) {
         setValue(name, value)
-        infoCtx.infoHandler(name, value, formCount)
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [setValue])
 
   document.onvisibilitychange = () => {
-    localStorage.setItem('educations', JSON.stringify(getValues()))
+    const values = getValues()
+
+    infoCtx.educations.forEach((_, i) => {
+      values[`description${i}`] = infoCtx.educations[i].description
+    })
+
+    localStorage.setItem('educations', JSON.stringify(values))
   }
 
   const addFormHandler = () => {
