@@ -31,6 +31,9 @@ const EducationForm: React.FC<{ formCountHandler: any }> = props => {
         setValue(name, value)
       }
     }
+    if (localStorage.getItem('educationsFormCount')) {
+      setFormCount(Number(localStorage.getItem('educationsFormCount')))
+    }
   }, [setValue])
 
   document.onvisibilitychange = () => {
@@ -41,6 +44,7 @@ const EducationForm: React.FC<{ formCountHandler: any }> = props => {
     })
 
     localStorage.setItem('educations', JSON.stringify(values))
+    localStorage.setItem('educationsFormCount', formCount.toString())
   }
 
   const addFormHandler = () => {

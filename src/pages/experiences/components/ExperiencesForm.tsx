@@ -23,13 +23,23 @@ const ExperiencesForm: React.FC<{ formCountHandler: any }> = props => {
 
       for (let [name, value] of Object.entries(storedValues)) {
         setValue(name, value)
-        infoCtx.infoHandler(name, value, formCount)
       }
     }
-  }, [])
+
+    if (localStorage.getItem('experiencesFormCount')) {
+      setFormCount(Number(localStorage.getItem('experiencesFormCount')))
+    }
+  }, [setValue])
 
   document.onvisibilitychange = () => {
-    localStorage.setItem('experiences', JSON.stringify(getValues()))
+    const values = getValues()
+
+    infoCtx.experiences.forEach((_, i) => {
+      values[`description${i}`] = infoCtx.experiences[i].description
+    })
+
+    localStorage.setItem('experiences', JSON.stringify(values))
+    localStorage.setItem('experiencesFormCount', formCount.toString())
   }
 
   const addFormHandler = () => {
