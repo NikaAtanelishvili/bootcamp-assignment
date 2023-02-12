@@ -1,9 +1,9 @@
-import React, { ReactNode, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 
 interface InfoContextType {
   name: string
   surname: string
-  image: string
+  image: any
   about_me: string
   email: string
   phone_number: string
@@ -37,8 +37,8 @@ interface InfoContextType {
 
 interface InfoHandlerProps {
   name: string
-  value: string
-  formCount: number
+  value: any
+  formCount: any
 }
 
 export const InfoContext = React.createContext<InfoContextType>({
@@ -80,7 +80,7 @@ const setInfoHandler = (prevState: any, value: any, formCount: number) => {
 export const InfoContextProvider: React.FC<{ children: ReactNode }> = props => {
   const [name, setName] = useState<string>('')
   const [email, setEmail] = useState<string>('')
-  const [image, setImage] = useState<string>('')
+  const [image, setImage] = useState<any>({})
   const [aboutme, setAboutme] = useState<string>('')
   const [lastname, setLastname] = useState<string>('')
   const [phoneNumber, setPhoneNumber] = useState<string>('')
@@ -92,7 +92,7 @@ export const InfoContextProvider: React.FC<{ children: ReactNode }> = props => {
   const infoHandler = (props: InfoHandlerProps) => {
     props.name === 'name' && setName(props.value)
     props.name === 'email' && setEmail(props.value)
-    props.name === 'image' && setImage(props.value)
+    props.name === 'image' && setImage(props.value.name)
     props.name === 'aboutme' && setAboutme(props.value)
     props.name === 'lastname' && setLastname(props.value)
     props.name === 'phoneNumber' && setPhoneNumber(props.value)
@@ -125,7 +125,7 @@ export const InfoContextProvider: React.FC<{ children: ReactNode }> = props => {
         setExperiences((prevState: any) =>
           setInfoHandler(prevState, { due_date: props.value }, props.formCount)
         )
-        
+
       // description experiences
       props.name.includes('descriptionExperiences') &&
         setExperiences((prevState: any) =>
@@ -169,13 +169,50 @@ export const InfoContextProvider: React.FC<{ children: ReactNode }> = props => {
   const clearDataHandler = () => {
     setName('')
     setLastname('')
-    setImage('')
+    setImage({})
     setAboutme('')
     setPhoneNumber('')
 
     setExperiences([])
     setEducations([])
   }
+  useEffect(() => {
+    if (localStorage.getItem('personalInfo')) {
+      const personalInfo = JSON.parse(localStorage.getItem('personalInfo')!)
+      for (let [name, value] of Object.entries(personalInfo!)) {
+        const props = {
+          name: name,
+          value: value,
+          formCount: undefined,
+        }
+        infoHandler(props)
+      }
+    }
+
+    if (localStorage.getItem('experiences')) {
+      const experiences = JSON.parse(localStorage.getItem('experiences')!)
+      for (let [name, value] of Object.entries(experiences!)) {
+        const props = {
+          name: name,
+          value: value,
+          formCount: Number(name.slice(-1)),
+        }
+        infoHandler(props)
+      }
+    }
+
+    if (localStorage.getItem('educations')) {
+      const educations = JSON.parse(localStorage.getItem('educations')!)
+      for (let [name, value] of Object.entries(educations!)) {
+        const props = {
+          name: name,
+          value: value,
+          formCount: Number(name.slice(-1)),
+        }
+        infoHandler(props)
+      }
+    }
+  }, [])
 
   const contextValue: InfoContextType = {
     name: name,
