@@ -80,7 +80,7 @@ const setInfoHandler = (prevState: any, value: any, formCount: number) => {
 export const InfoContextProvider: React.FC<{ children: ReactNode }> = props => {
   const [name, setName] = useState<string>('')
   const [email, setEmail] = useState<string>('')
-  const [image, setImage] = useState<any>({})
+  const [image, setImage] = useState<any>()
   const [aboutme, setAboutme] = useState<string>('')
   const [lastname, setLastname] = useState<string>('')
   const [phoneNumber, setPhoneNumber] = useState<string>('')
@@ -92,7 +92,7 @@ export const InfoContextProvider: React.FC<{ children: ReactNode }> = props => {
   const infoHandler = (props: InfoHandlerProps) => {
     props.name === 'name' && setName(props.value)
     props.name === 'email' && setEmail(props.value)
-    props.name === 'image' && setImage(props.value.name)
+    props.name === 'image' && setImage(props.value)
     props.name === 'aboutme' && setAboutme(props.value)
     props.name === 'lastname' && setLastname(props.value)
     props.name === 'phoneNumber' && setPhoneNumber(props.value)
@@ -169,7 +169,7 @@ export const InfoContextProvider: React.FC<{ children: ReactNode }> = props => {
   const clearDataHandler = () => {
     setName('')
     setLastname('')
-    setImage({})
+    setImage(null)
     setAboutme('')
     setPhoneNumber('')
 

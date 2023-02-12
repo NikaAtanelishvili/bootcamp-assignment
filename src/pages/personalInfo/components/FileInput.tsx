@@ -39,9 +39,11 @@ const FileInput: React.FC<FileInputProps> = props => {
         id={props.id}
         onChange={e => {
           props.register.onChange(e)
+          const url = URL.createObjectURL(e.target.files![0])
+
           infoCtx.infoHandler({
             name: props.name,
-            value: e.target.value,
+            value: url,
             formCount: props.formCount,
           })
         }}

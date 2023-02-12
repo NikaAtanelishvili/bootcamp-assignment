@@ -23,14 +23,20 @@ const PersonalInfoForm = () => {
 
       for (let [name, value] of Object.entries(storedValues)) {
         setValue(name, value)
-        infoCtx.infoHandler(name, value, undefined)
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [setValue])
 
   document.onvisibilitychange = () => {
-    localStorage.setItem('personalInfo', JSON.stringify(getValues()))
+    const values = {
+      name: getValues('name'),
+      lastname: getValues('lastname'),
+      phoneNumber: getValues('phoneNumber'),
+      image: infoCtx.image,
+      aboutme: infoCtx.about_me,
+      email: getValues('email'),
+    }
+    localStorage.setItem('personalInfo', JSON.stringify(values))
   }
 
   return (
