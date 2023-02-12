@@ -1,22 +1,43 @@
-import { Input, Textarea } from 'components'
-import { useContext, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useContext, useEffect, useState } from 'react'
+
 import { useNavigate } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
 import { nanoid } from 'nanoid'
+
 import DegreeSelect from './DegreeSelect'
 import { InfoContext } from 'context'
+import { Input } from 'components'
 
 const EducationForm: React.FC<{ formCountHandler: any }> = props => {
   const {
     register,
+    setValue,
+    getValues,
     handleSubmit,
     formState: { errors, isSubmitted },
-    setValue,
   } = useForm<any>({ mode: 'all' })
+
+  const [formCount, setFormCount] = useState<number>(1)
 
   const infoCtx = useContext(InfoContext)
 
-  const [formCount, setFormCount] = useState<number>(1)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (localStorage.getItem('educations')) {
+      const values = JSON.parse(localStorage.getItem('educations')!)
+
+      for (let [name, value] of Object.entries(values)) {
+        setValue(name, value)
+        infoCtx.infoHandler(name, value, formCount)
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  document.onvisibilitychange = () => {
+    localStorage.setItem('educations', JSON.stringify(getValues()))
+  }
 
   const addFormHandler = () => {
     setFormCount(prevState => prevState + 1)
@@ -27,49 +48,16 @@ const EducationForm: React.FC<{ formCountHandler: any }> = props => {
     setValue(name, value, { shouldValidate: true })
   }
 
-  const sendCV = async () => {
-    const cv = {
-      name: infoCtx.name,
-      surname: infoCtx.surname,
-      phone_number: infoCtx.phone_number,
-      about_me: infoCtx.about_me,
-      image: infoCtx.image,
-      experiences: infoCtx.experiences,
-      education: infoCtx.educations,
-    }
-
-    const request = await fetch(
-      'https://resume.redberryinternship.ge/api/cvs',
-      {
-        method: 'POST',
-        body: JSON.stringify(cv),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    )
-
-    const response = await request.json()
-
-    if (response.status === 201) {
-      navigate('/resume')
-    }
-    return false
-  }
-
-  const navigate = useNavigate()
-
   return (
     <form
       id="education"
       onSubmit={handleSubmit(data => {
-        sendCV()
+        navigate('/resume')
       })}
     >
       {Array.from(Array(formCount)).map((_, i: number) => {
         return (
           <div key={nanoid()}>
-            {/* School */}
             <div className=" mb-8">
               <div className=" mb-2">
                 <Input
@@ -98,7 +86,6 @@ const EducationForm: React.FC<{ formCountHandler: any }> = props => {
                 მინუმუმ 2 სიმბოლო
               </p>
             </div>
-            {/* Degrees - Due date */}
             <div className="flex flex-row w-full justify-between mb-8">
               {/* Degrees */}
               <div className=" w-[46%]">
@@ -140,7 +127,6 @@ const EducationForm: React.FC<{ formCountHandler: any }> = props => {
                 />
               </div>
             </div>
-            {/* Description */}
             <div className=" mb-11">
               <div className="flex flex-col">
                 <label

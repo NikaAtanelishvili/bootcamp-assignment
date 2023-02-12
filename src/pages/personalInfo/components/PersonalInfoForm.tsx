@@ -1,29 +1,37 @@
 import { Input } from 'components'
 import { InfoContext } from 'context'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import FileInput from './FileInput'
-
-interface PersonalInfoType {
-  name: string
-  lastname: string
-  image: string
-  aboutme: string
-  email: string
-  phoneNumber: string
-}
 
 const PersonalInfoForm = () => {
   const {
     register,
     handleSubmit,
-
+    getValues,
+    setValue,
     formState: { errors, isSubmitted },
-  } = useForm<PersonalInfoType>({ mode: 'onChange' })
+  } = useForm<any>({ mode: 'onChange' })
 
   const infoCtx = useContext(InfoContext)
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (localStorage.getItem('personalInfo')) {
+      const storedValues = JSON.parse(localStorage.getItem('personalInfo')!)
+
+      for (let [name, value] of Object.entries(storedValues)) {
+        setValue(name, value)
+        infoCtx.infoHandler(name, value, undefined)
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  document.onvisibilitychange = () => {
+    localStorage.setItem('personalInfo', JSON.stringify(getValues()))
+  }
 
   return (
     <form

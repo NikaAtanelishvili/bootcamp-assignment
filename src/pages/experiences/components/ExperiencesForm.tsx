@@ -15,6 +15,22 @@ const ExperiencesForm: React.FC<{ formCountHandler: any }> = props => {
   } = useForm<any>({ mode: 'all' })
 
   const [formCount, setFormCount] = useState<number>(1)
+  const infoCtx = useContext(InfoContext)
+
+  useEffect(() => {
+    if (localStorage.getItem('experiences')) {
+      const storedValues = JSON.parse(localStorage.getItem('experiences')!)
+
+      for (let [name, value] of Object.entries(storedValues)) {
+        setValue(name, value)
+        infoCtx.infoHandler(name, value, formCount)
+      }
+    }
+  }, [])
+
+  document.onvisibilitychange = () => {
+    localStorage.setItem('experiences', JSON.stringify(getValues()))
+  }
 
   const addFormHandler = () => {
     setFormCount(prevState => prevState + 1)
@@ -22,7 +38,6 @@ const ExperiencesForm: React.FC<{ formCountHandler: any }> = props => {
   }
 
   const navigate = useNavigate()
-  const infoCtx = useContext(InfoContext)
   return (
     <form
       id="experiences"
