@@ -14,16 +14,16 @@ interface ExperienceType {
 
 interface EducationType {
   institute: string
-  degree_id: {
-    id: string
-    title: string
-  }
+  degree_title: string
+  degree_id: string
   due_date: string
   description: string
 }
 
 const ResumeLayout: React.FC = () => {
   const infoCtx = useContext(InfoContext)
+
+  // const imageURL = URL.createObjectURL(infoCtx.image[0])
 
   return (
     <div className=" pl-[60px] pr-[60px] pt-[68px] pb-11 w-full h-full bg-[#FFFFFF] relative">
@@ -74,7 +74,7 @@ const ResumeLayout: React.FC = () => {
 
         <div className=" w-[246px] h-[246px] top-[48px] right-[75px] ">
           <img
-            src={infoCtx.image}
+            src={'daw'}
             className="rounded-[50%]"
             alt="profile"
             width="246px"
@@ -94,14 +94,37 @@ const ResumeLayout: React.FC = () => {
         )}
         {infoCtx.experiences.map((experience: ExperienceType) => {
           return (
-            <div>
-              <p className=" font-Helvetica font-medium text-base leading-5 text-[#1A1A1A] mb-2">
-                {`${experience.position} ${experience.employer}`}
-              </p>
-              <p className=" font-Helvetica font-normal text-base leading-[19px] text-[#919191] mb-4">{`${experience.start_date} ${experience.due_date}`}</p>
-              <p className=" font-Helvetica font-normal text-base leading-[22px] text-[#000000] mb-8">
-                {experience.description}
-              </p>
+            <div key={Math.random()}>
+              <div className="flex flex-row items-center mb-2">
+                {experience.position && (
+                  <p className=" font-Helvetica font-medium text-base leading-5 text-[#1A1A1A]">
+                    {`${experience.position}`}
+                  </p>
+                )}
+                {experience.employer && (
+                  <p className=" font-Helvetica font-medium text-base leading-5 text-[#1A1A1A]">
+                    {`, ${experience.employer}`}
+                  </p>
+                )}
+              </div>
+              <div className="flex flex-row items-center mb-4">
+                {experience.start_date && (
+                  <i className=" font-Helvetica font-normal text-base leading-[19px] text-[#919191]">
+                    {`${experience.start_date} `}
+                  </i>
+                )}
+                {experience.due_date && (
+                  <i className=" font-Helvetica font-normal text-base leading-[19px] text-[#919191]">
+                    {`, ${experience.due_date}`}
+                  </i>
+                )}
+              </div>
+
+              {experience.description && (
+                <p className=" font-Helvetica font-normal text-base leading-[22px] text-[#000000] mb-8">
+                  {experience.description}
+                </p>
+              )}
             </div>
           )
         })}
@@ -117,23 +140,23 @@ const ResumeLayout: React.FC = () => {
         )}
         {infoCtx.educations.map((education: EducationType) => {
           return (
-            <div>
+            <div key={Math.random()}>
               <div className="flex flex-row items-center">
                 {education.institute && (
                   <p className=" font-Helvetica font-medium text-base leading-5 text-[#1A1A1A] mb-2">
                     {`${education.institute}`}
                   </p>
                 )}
-                {education.degree_id && (
+                {education.degree_title && (
                   <p className=" font-Helvetica font-medium text-base leading-5 text-[#1A1A1A] mb-2">
-                    {`, ${education.degree_id.title}`}
+                    {`, ${education.degree_title}`}
                   </p>
                 )}
               </div>
               {education.due_date && (
-                <p className=" font-Helvetica font-normal text-base leading-[19px] text-[#919191] mb-4">
+                <i className=" font-Helvetica font-normal text-base leading-[19ix] text-[#919191] mb-4">
                   {education.due_date}
-                </p>
+                </i>
               )}
               {education.description && (
                 <p className=" font-Helvetica font-normal text-base leading-[22px] text-[#000000]">
