@@ -92,7 +92,6 @@ const EducationForm: React.FC<{ formCountHandler: any }> = props => {
               experience.description
             )
           })
-          console.log(infoCtx.educations[0].degree_id)
           infoCtx.educations.forEach((education, i) => {
             formData.append(`educations[${i}][institute]`, education.institute)
             formData.append(`educations[${i}][degree_id]`, education.degree_id)
@@ -116,12 +115,12 @@ const EducationForm: React.FC<{ formCountHandler: any }> = props => {
             )
 
             const data = await response.json()
-            console.log()
             if (response.status === 201) {
+              localStorage.clear()
+              infoCtx.clearDataHandler()
               navigate('/resume', { state: data })
             }
           } catch (err) {
-            console.log(err)
           }
         }
         sendCV()

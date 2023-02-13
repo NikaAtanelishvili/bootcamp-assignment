@@ -39,9 +39,6 @@ const DegreeSelect: React.FC<SelectProps> = props => {
     })()
   }, [])
 
-  console.log(degrees)
-  console.log(infoCtx.educations[0])
-
   return (
     <div className="flex flex-col z-20 relative">
       {dropdownStatus && (
