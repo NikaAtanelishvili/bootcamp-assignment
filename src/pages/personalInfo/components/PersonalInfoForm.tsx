@@ -16,7 +16,7 @@ const PersonalInfoForm = () => {
 
   const infoCtx = useContext(InfoContext)
   const navigate = useNavigate()
-  console.log(getValues())
+
   useEffect(() => {
     if (localStorage.getItem('personalInfo')) {
       const storedValues = JSON.parse(localStorage.getItem('personalInfo')!)
@@ -131,6 +131,8 @@ const PersonalInfoForm = () => {
       {/* Image */}
       <div className=" mb-12">
         <FileInput
+          isSubmitted={isSubmitted}
+          errors={errors['image']}
           formCount={undefined}
           label={'პირადი ფოტოს ატვირთვა'}
           name={'image'}
@@ -234,7 +236,7 @@ const PersonalInfoForm = () => {
                 message: 'უნდა აკმაყოფილებდეს ქართული მობილურის ნომრის ფორმატს',
               },
               pattern: {
-                value: /^\+995\s5\d{2}\s\d{2}\s\d{2}\s\d{2}$/,
+                value: /^(\+?995)?(79\d{7}|5\d{8})$/,
                 message: 'უნდა აკმაყოფილებდეს ქართული მობილურის ნომრის ფორმატს',
               },
             })}
