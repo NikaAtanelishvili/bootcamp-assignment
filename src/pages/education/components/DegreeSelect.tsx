@@ -21,11 +21,12 @@ export interface SelectProps {
 }
 
 const DegreeSelect: React.FC<SelectProps> = props => {
-  const [dropdownStatus, setDropdownStatus] = useState<boolean>(false)
-  const [selectValue, setSelectValue] = useState<string>('')
-  const [degrees, setDegrees] = useState<any>([])
-
   const infoCtx = useContext(InfoContext)
+  const [dropdownStatus, setDropdownStatus] = useState<boolean>(false)
+  const [selectValue, setSelectValue] = useState<string>(
+    infoCtx.educations[props.formCount - 1]?.degree_title
+  )
+  const [degrees, setDegrees] = useState<{ id: number; title: string }[]>([])
 
   useEffect(() => {
     ;(async () => {
@@ -38,6 +39,9 @@ const DegreeSelect: React.FC<SelectProps> = props => {
       setDegrees(response)
     })()
   }, [])
+
+  console.log(degrees)
+  console.log(infoCtx.educations[0])
 
   return (
     <div className="flex flex-col z-20 relative">
@@ -82,16 +86,15 @@ const DegreeSelect: React.FC<SelectProps> = props => {
 
           {dropdownStatus && (
             <div className=" rounded absolute w-full top-12 shadow-xl">
-              {degrees.map((degree: { title: string; id: string }) => {
+              {degrees.map((degree: { title: string; id: number }) => {
                 return (
                   <div
                     onClick={() => {
                       props.handleSelect(props.name, degree.title)
                       setSelectValue(degree.title)
-
                       infoCtx.infoHandler({
                         name: props.name,
-                        value: degree.title,
+                        value: { title: degree.title, id: degree.id },
                         formCount: props.formCount,
                       })
 
