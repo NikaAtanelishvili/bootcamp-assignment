@@ -21,7 +21,10 @@ interface InfoContextType {
   educations:
     | {
         institute: string
-        degree_id: number | null
+        degree_id: {
+          id: string
+          title: string
+        }
         due_date: string
         description: string
       }[]
@@ -58,7 +61,10 @@ export const InfoContext = React.createContext<InfoContextType>({
   educations: [
     {
       institute: '',
-      degree_id: null,
+      degree_id: {
+        id: '',
+        title: '',
+      },
       due_date: '',
       description: '',
     },
@@ -147,19 +153,31 @@ export const InfoContextProvider: React.FC<{ children: ReactNode }> = props => {
       // School
       props.name.includes('school') &&
         setEducations((prevState: any) =>
-          setInfoHandler(prevState, { institute: props.value }, Number(props.name.slice(-1)))
+          setInfoHandler(
+            prevState,
+            { institute: props.value },
+            Number(props.name.slice(-1))
+          )
         )
 
       // Degree
       props.name.includes('degree') &&
         setEducations((prevState: any) =>
-          setInfoHandler(prevState, { degree_id: props.value }, Number(props.name.slice(-1)))
+          setInfoHandler(
+            prevState,
+            { degree_id: props.value },
+            Number(props.name.slice(-1))
+          )
         )
 
       // End date education
       props.name.includes('endDateEducation') &&
         setEducations((prevState: any) =>
-          setInfoHandler(prevState, { due_date: props.value }, Number(props.name.slice(-1)))
+          setInfoHandler(
+            prevState,
+            { due_date: props.value },
+            Number(props.name.slice(-1))
+          )
         )
 
       // Description education

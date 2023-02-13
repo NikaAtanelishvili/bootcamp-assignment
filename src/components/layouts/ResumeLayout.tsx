@@ -14,7 +14,10 @@ interface ExperienceType {
 
 interface EducationType {
   institute: string
-  degree: string
+  degree_id: {
+    id: string
+    title: string
+  }
   due_date: string
   description: string
 }
@@ -121,9 +124,9 @@ const ResumeLayout: React.FC = () => {
                     {`${education.institute}`}
                   </p>
                 )}
-                {education.degree && (
+                {education.degree_id && (
                   <p className=" font-Helvetica font-medium text-base leading-5 text-[#1A1A1A] mb-2">
-                    {`, ${education.degree}`}
+                    {`, ${education.degree_id.title}`}
                   </p>
                 )}
               </div>
