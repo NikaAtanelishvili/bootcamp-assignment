@@ -1,6 +1,5 @@
 import { Input } from 'components'
 import { InfoContext } from 'context'
-import { nanoid } from 'nanoid'
 import { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
@@ -12,7 +11,7 @@ const ExperiencesForm: React.FC<{ formCountHandler: any }> = props => {
     getValues,
     setValue,
     formState: { errors, isSubmitted },
-  } = useForm<any>({ mode: 'all' })
+  } = useForm<any>({ mode: 'onChange' })
 
   const [formCount, setFormCount] = useState<number>(1)
   const infoCtx = useContext(InfoContext)
@@ -29,7 +28,8 @@ const ExperiencesForm: React.FC<{ formCountHandler: any }> = props => {
     if (localStorage.getItem('experiencesFormCount')) {
       setFormCount(Number(localStorage.getItem('experiencesFormCount')))
     }
-  }, [setValue])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   document.onvisibilitychange = () => {
     const values = getValues()
@@ -52,19 +52,24 @@ const ExperiencesForm: React.FC<{ formCountHandler: any }> = props => {
     <form
       id="experiences"
       onSubmit={handleSubmit(data => {
-        console.log('submited')
+        const values = getValues()
+
+        infoCtx.experiences.forEach((_, i) => {
+          values[`description${i}`] = infoCtx.experiences[i].description
+        })
+
+        localStorage.setItem('experiences', JSON.stringify(values))
+        localStorage.setItem('experiencesFormCount', formCount.toString())
         return navigate('/education')
       })}
     >
       {Array.from(Array(formCount)).map((_, i: number) => {
         return (
-          <div key={nanoid()}>
+          <div>
             {/* position */}
             <div className=" mb-8">
               <div className=" mb-2">
                 <Input
-                  value={''}
-                  formCount={i}
                   type={'text'}
                   isSubmitted={isSubmitted}
                   errors={errors[`position${i}`]}
@@ -73,12 +78,12 @@ const ExperiencesForm: React.FC<{ formCountHandler: any }> = props => {
                   styleType={'long'}
                   placeholder={'დეველოპერი, დიზაინერი, ა.შ.'}
                   register={register(`position${i}`, {
-                    required: {
-                      value: true,
-                      message: 'მინუმუმ 2 სიმბოლო',
-                    },
                     minLength: {
                       value: 2,
+                      message: 'მინუმუმ 2 სიმბოლო',
+                    },
+                    required: {
+                      value: true,
                       message: 'მინუმუმ 2 სიმბოლო',
                     },
                   })}
@@ -92,8 +97,6 @@ const ExperiencesForm: React.FC<{ formCountHandler: any }> = props => {
             <div className=" mb-8">
               <div className=" mb-2">
                 <Input
-                  value={''}
-                  formCount={i}
                   isSubmitted={isSubmitted}
                   errors={errors[`employer${i}`]}
                   type={'text'}
@@ -122,8 +125,6 @@ const ExperiencesForm: React.FC<{ formCountHandler: any }> = props => {
               {/* Start date */}
               <div className=" w-[46%]">
                 <Input
-                  value={''}
-                  formCount={i}
                   isSubmitted={isSubmitted}
                   errors={errors[`startDateExperiences${i}`]}
                   type={'date'}
@@ -142,8 +143,6 @@ const ExperiencesForm: React.FC<{ formCountHandler: any }> = props => {
               {/* Due date */}
               <div className=" w-[46%]">
                 <Input
-                  value={''}
-                  formCount={i}
                   isSubmitted={isSubmitted}
                   errors={errors[`endDateExperiences${i}`]}
                   type={'date'}
@@ -181,13 +180,13 @@ const ExperiencesForm: React.FC<{ formCountHandler: any }> = props => {
                   } ${
                     errors[`descriptionExperiences${i}`] &&
                     isSubmitted &&
-                    'border-[#EF5050] focus:border'
+                    'border-[#EF5050] focus:outline-none focus:border'
                   }
-                ${
-                  !errors[`descriptionExperiences${i}`] &&
-                  isSubmitted &&
-                  'border-[#98E37E]'
-                }`}
+                  ${
+                    !errors[`descriptionExperiences${i}`] &&
+                    isSubmitted &&
+                    'border-[#98E37E] focus:outline-none focus:border'
+                  }`}
                   id={`descriptionExperiences${i}`}
                   placeholder={'როლი თანამდებობაზე და ზოგადი აღწერა'}
                   {...register(`descriptionExperiences${i}`, {
@@ -199,7 +198,7 @@ const ExperiencesForm: React.FC<{ formCountHandler: any }> = props => {
                       infoCtx.infoHandler({
                         name: `descriptionExperiences${i}`,
                         value: e.target.value,
-                        formCount: i,
+                        // formCount: i,
                       })
                     },
                   })}
