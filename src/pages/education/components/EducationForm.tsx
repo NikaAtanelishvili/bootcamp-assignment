@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
-import { nanoid } from 'nanoid'
 
 import DegreeSelect from './DegreeSelect'
 import { InfoContext } from 'context'
@@ -55,21 +54,85 @@ const EducationForm: React.FC<{ formCountHandler: any }> = props => {
   const handleSelect = (name: string, value: string) => {
     setValue(name, value, { shouldValidate: true })
   }
-
+  const formData = new FormData()
+  formData.append('name', JSON.stringify(infoCtx.experiences))
   return (
     <form
       id="education"
-      onSubmit={handleSubmit(data => {
-        navigate('/resume')
+      onSubmit={handleSubmit(() => {
+        const values = getValues()
+
+        infoCtx.educations.forEach((_, i) => {
+          values[`description${i}`] = infoCtx.educations[i].description
+        })
+
+        localStorage.setItem('educations', JSON.stringify(values))
+        localStorage.setItem('educationsFormCount', formCount.toString())
+
+        const sendCV = async () => {
+          const formData = new FormData()
+
+          formData.append('name', infoCtx.name)
+          formData.append('surname', infoCtx.surname)
+          formData.append('phone_number', infoCtx.phone_number)
+          formData.append('about_me', infoCtx.about_me)
+          formData.append('email', infoCtx.email)
+          formData.append('image', infoCtx.image)
+
+          infoCtx.experiences.forEach((experience, i) => {
+            formData.append(`experiences[${i}][employer]`, experience.employer)
+            formData.append(
+              `experiences[${i}][start_date]`,
+              experience.start_date
+            )
+            formData.append(`experiences[${i}][position]`, experience.position)
+            formData.append(`experiences[${i}][due_date]`, experience.due_date)
+            formData.append(
+              `experiences[${i}][description]`,
+              experience.description
+            )
+          })
+          console.log(infoCtx.educations[0].degree_id)
+          infoCtx.educations.forEach((education, i) => {
+            formData.append(`educations[${i}][institute]`, education.institute)
+            formData.append(`educations[${i}][degree_id]`, education.degree_id)
+            formData.append(`educations[${i}][due_date]`, education.due_date)
+            formData.append(
+              `educations[${i}][description]`,
+              education.description
+            )
+          })
+
+          try {
+            const response = await fetch(
+              'https://resume.redberryinternship.ge/api/cvs',
+              {
+                method: 'POST',
+                body: formData,
+                headers: {
+                  Accept: 'application/json',
+                },
+              }
+            )
+
+            const data = await response.json()
+            console.log()
+            if (response.status === 201) {
+              navigate('/resume', { state: data })
+            }
+          } catch (err) {
+            console.log(err)
+          }
+        }
+        sendCV()
       })}
     >
       {Array.from(Array(formCount)).map((_, i: number) => {
         return (
-          <div key={nanoid()}>
+          <div>
             <div className=" mb-8">
               <div className=" mb-2">
                 <Input
-                  value={''}
                   formCount={i}
                   isSubmitted={isSubmitted}
                   errors={errors[`school${i}`]}
@@ -117,7 +180,6 @@ const EducationForm: React.FC<{ formCountHandler: any }> = props => {
               {/* Due date */}
               <div className=" w-[46%]">
                 <Input
-                  value={''}
                   formCount={i}
                   type={'date'}
                   isSubmitted={isSubmitted}
@@ -155,13 +217,13 @@ const EducationForm: React.FC<{ formCountHandler: any }> = props => {
                   } ${
                     errors[`descriptionEducation${i}`] &&
                     isSubmitted &&
-                    'border-[#EF5050] focus:border'
+                    'border-[#EF5050] focus:outline-none focus:border'
                   }
-          ${
-            !errors[`descriptionEducation${i}`] &&
-            isSubmitted &&
-            'border-[#98E37E]'
-          }`}
+                  ${
+                    !errors[`descriptionEducation${i}`] &&
+                    isSubmitted &&
+                    'border-[#98E37E] focus:outline-none focus:border'
+                  }`}
                   id={`descriptionEducation${i}`}
                   placeholder={'განათლების აღწერა'}
                   rows={6}
