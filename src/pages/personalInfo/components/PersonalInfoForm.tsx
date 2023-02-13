@@ -36,7 +36,6 @@ const PersonalInfoForm = () => {
       name: getValues('name'),
       lastname: getValues('lastname'),
       phoneNumber: getValues('phoneNumber'),
-      image: infoCtx.image,
       aboutme: infoCtx.about_me,
       email: getValues('email'),
     }
