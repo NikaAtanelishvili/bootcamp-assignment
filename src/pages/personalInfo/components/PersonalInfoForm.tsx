@@ -229,7 +229,7 @@ const PersonalInfoForm = () => {
             label={'მობილურის ნომერი'}
             name={'phoneNumber'}
             styleType={'long'}
-            placeholder={'+995 551 12 34 56'}
+            placeholder={'+995551123456'}
             register={register('phoneNumber', {
               required: {
                 value: true,
