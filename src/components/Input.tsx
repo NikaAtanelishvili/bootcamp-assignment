@@ -5,13 +5,14 @@ import { useContext } from 'react'
 import { InfoContext } from 'context'
 
 export interface InputProps {
-  label: string
-  type: string
-  name: string
-  errors: any
-  isSubmitted: boolean
-  placeholder: string
-  styleType: string
+  label?: string
+  type?: string
+  name?: string
+  errors?: any
+  isSubmitted?: boolean
+  formCount?: number
+  placeholder?: string
+  styleType?: string
   register: {
     onChange: ChangeHandler
     onBlur: ChangeHandler
@@ -21,7 +22,6 @@ export interface InputProps {
 
 const Input: React.FC<InputProps> = props => {
   const infoCtx = useContext(InfoContext)
-
   return (
     <div className="flex flex-col">
       <label
@@ -38,22 +38,31 @@ const Input: React.FC<InputProps> = props => {
           id={props.name}
           type={props.type}
           name={props.name}
-          className={` font-Helvetica px-4 border border-[#BCBCBC] focus:outline-none ${
+          className={`focus:outline-none focus:border-2 font-Helvetica px-4 border border-[#BCBCBC] ${
             !props.errors &&
             !props.isSubmitted &&
             'focus:outline-none focus:border-2'
           } ${
-            props.errors && props.isSubmitted && 'border-[#EF5050]'
+            props.errors &&
+            props.isSubmitted &&
+            'border-[#EF5050] focus:outline-none focus:border'
           } h-12 rounded bg-[#FFFFFF] placeholder-[#00000099] font-normal text-base leading-[21px] ${
             (props.styleType === 'normal' && ' w-full') ||
             (props.styleType === 'long' && ' w-full ')
-          } ${!props.errors && props.isSubmitted && 'border-[#98E37E]'}`}
+          } ${
+            !props.errors &&
+            props.isSubmitted &&
+            'border-[#98E37E] focus:outline-none focus:border'
+          }`}
           placeholder={props.placeholder}
           onBlur={props.register.onBlur}
           ref={props.register.ref}
           onChange={e => {
             props.register.onChange(e)
-            infoCtx.infoHandler({ name: props.name, value: e.target.value })
+            infoCtx.infoHandler({
+              name: props.name,
+              value: e.target.value,
+            })
           }}
         />
         {props.errors && props.styleType === 'long' && props.isSubmitted && (
