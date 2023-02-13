@@ -1,15 +1,15 @@
-import { EducationForm } from './components'
-import { FormLayout, ResumeLayout } from 'components'
 import { useState } from 'react'
+
+import { FormLayout, ResumeLayout } from 'components'
+import { EducationForm } from './components'
 
 const Education = () => {
   const [formCount, setFormCount] = useState<number>(1)
 
-  const formCountHandler = (formCount: number) => {
-    return setFormCount(formCount)
-  }
+  const formCountHandler = (formCount: number) => setFormCount(formCount)
+
   return (
-    <div className="flex flex-row w-full h-screen">
+    <div className="flex flex-row w-full">
       <div>
         <FormLayout
           formTitle={'განათლება'}
@@ -22,7 +22,9 @@ const Education = () => {
           <EducationForm formCountHandler={formCountHandler} />
         </FormLayout>
       </div>
-      <ResumeLayout />
+      <div className="h-screen">
+        <ResumeLayout />
+      </div>
     </div>
   )
 }
