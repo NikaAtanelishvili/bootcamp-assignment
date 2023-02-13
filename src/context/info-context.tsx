@@ -9,26 +9,22 @@ interface InfoContextType {
   phone_number: string
 
   experiences:
-    | [
-        {
-          position: string
-          employer: string
-          start_date: string
-          due_date: string
-          description: string
-        }
-      ]
+    | {
+        position: string
+        employer: string
+        start_date: string
+        due_date: string
+        description: string
+      }[]
     | []
 
   educations:
-    | [
-        {
-          institute: string
-          degree: string
-          due_date: string
-          description: string
-        }
-      ]
+    | {
+        institute: string
+        degree_id: number | null
+        due_date: string
+        description: string
+      }[]
     | []
 
   infoHandler: any
@@ -62,7 +58,7 @@ export const InfoContext = React.createContext<InfoContextType>({
   educations: [
     {
       institute: '',
-      degree: '',
+      degree_id: null,
       due_date: '',
       description: '',
     },
@@ -97,17 +93,25 @@ export const InfoContextProvider: React.FC<{ children: ReactNode }> = props => {
     props.name === 'lastname' && setLastname(props.value)
     props.name === 'phoneNumber' && setPhoneNumber(props.value)
 
-    if (props.formCount !== undefined) {
+    if (Number(props.name.slice(-1)) !== undefined) {
       // Position
       props.name.includes('position') &&
         setExperiences((prevState: any) =>
-          setInfoHandler(prevState, { position: props.value }, props.formCount)
+          setInfoHandler(
+            prevState,
+            { position: props.value },
+            Number(props.name.slice(-1))
+          )
         )
 
       // Employer
       props.name.includes('employer') &&
         setExperiences((prevState: any) =>
-          setInfoHandler(prevState, { employer: props.value }, props.formCount)
+          setInfoHandler(
+            prevState,
+            { employer: props.value },
+            Number(props.name.slice(-1))
+          )
         )
 
       // Start date experiences
@@ -116,14 +120,18 @@ export const InfoContextProvider: React.FC<{ children: ReactNode }> = props => {
           setInfoHandler(
             prevState,
             { start_date: props.value },
-            props.formCount
+            Number(props.name.slice(-1))
           )
         )
 
       // end date experiences
       props.name.includes('endDateExperiences') &&
         setExperiences((prevState: any) =>
-          setInfoHandler(prevState, { due_date: props.value }, props.formCount)
+          setInfoHandler(
+            prevState,
+            { due_date: props.value },
+            Number(props.name.slice(-1))
+          )
         )
 
       // description experiences
@@ -132,26 +140,26 @@ export const InfoContextProvider: React.FC<{ children: ReactNode }> = props => {
           setInfoHandler(
             prevState,
             { description: props.value },
-            props.formCount
+            Number(props.name.slice(-1))
           )
         )
 
       // School
       props.name.includes('school') &&
         setEducations((prevState: any) =>
-          setInfoHandler(prevState, { institute: props.value }, props.formCount)
+          setInfoHandler(prevState, { institute: props.value }, Number(props.name.slice(-1)))
         )
 
       // Degree
       props.name.includes('degree') &&
         setEducations((prevState: any) =>
-          setInfoHandler(prevState, { degree: props.value }, props.formCount)
+          setInfoHandler(prevState, { degree_id: props.value }, Number(props.name.slice(-1)))
         )
 
       // End date education
       props.name.includes('endDateEducation') &&
         setEducations((prevState: any) =>
-          setInfoHandler(prevState, { due_date: props.value }, props.formCount)
+          setInfoHandler(prevState, { due_date: props.value }, Number(props.name.slice(-1)))
         )
 
       // Description education
@@ -160,7 +168,7 @@ export const InfoContextProvider: React.FC<{ children: ReactNode }> = props => {
           setInfoHandler(
             prevState,
             { description: props.value },
-            props.formCount
+            Number(props.name.slice(-1))
           )
         )
     }
@@ -172,7 +180,7 @@ export const InfoContextProvider: React.FC<{ children: ReactNode }> = props => {
     setImage(null)
     setAboutme('')
     setPhoneNumber('')
-
+    setEmail('')
     setExperiences([])
     setEducations([])
   }
