@@ -1,7 +1,9 @@
-import { InfoContext } from 'context'
-import { nanoid } from 'nanoid'
 import { useContext, useEffect, useState } from 'react'
+
 import { ChangeHandler } from 'react-hook-form'
+import { nanoid } from 'nanoid'
+
+import { InfoContext } from 'context'
 
 export interface SelectProps {
   label: string
@@ -19,9 +21,9 @@ export interface SelectProps {
 }
 
 const DegreeSelect: React.FC<SelectProps> = props => {
-  const [degrees, setDegrees] = useState<any>([])
   const [dropdownStatus, setDropdownStatus] = useState<boolean>(false)
-  const [selectValue, setSelectValue] = useState<string>()
+  const [selectValue, setSelectValue] = useState<string>('')
+  const [degrees, setDegrees] = useState<any>([])
 
   const infoCtx = useContext(InfoContext)
 
@@ -38,7 +40,13 @@ const DegreeSelect: React.FC<SelectProps> = props => {
   }, [])
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col z-20 relative">
+      {dropdownStatus && (
+        <div
+          onClick={() => setDropdownStatus(false)}
+          className="fixed top-0 left-0 right-0 bottom-0 bg-transparent"
+        />
+      )}
       <label
         className={` font-Helvetica font-medium text-[#000000] text-base leading-[21px] mb-2 ${
           props.errors && props.isSubmitted && 'text-[#E52F2F]'
@@ -86,6 +94,8 @@ const DegreeSelect: React.FC<SelectProps> = props => {
                         value: degree.title,
                         formCount: props.formCount,
                       })
+
+                      setDropdownStatus(false)
                     }}
                     key={nanoid()}
                     className=" cursor-pointer py-[10px] pl-4 bg-[#FFFFFF] font-normal font-Helvetica text-[#1A1A1A] text-base leading-[21px] hover:bg-[#C3DCEE]"
