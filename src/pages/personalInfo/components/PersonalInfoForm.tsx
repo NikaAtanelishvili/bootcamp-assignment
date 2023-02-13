@@ -16,13 +16,17 @@ const PersonalInfoForm = () => {
 
   const infoCtx = useContext(InfoContext)
   const navigate = useNavigate()
-
+  console.log(getValues())
   useEffect(() => {
     if (localStorage.getItem('personalInfo')) {
       const storedValues = JSON.parse(localStorage.getItem('personalInfo')!)
 
       for (let [name, value] of Object.entries(storedValues)) {
         setValue(name, value)
+      }
+      if (localStorage.getItem('imageFormValue')) {
+        const image = JSON.parse(localStorage.getItem('imageFormValue')!)
+        setValue('image', image)
       }
     }
   }, [setValue])
@@ -42,9 +46,16 @@ const PersonalInfoForm = () => {
   return (
     <form
       id="personalinfo"
-      onSubmit={handleSubmit(data => {
-        console.log(data)
-
+      onSubmit={handleSubmit(() => {
+        const values = {
+          name: getValues('name'),
+          lastname: getValues('lastname'),
+          phoneNumber: getValues('phoneNumber'),
+          image: infoCtx.image,
+          aboutme: infoCtx.about_me,
+          email: getValues('email'),
+        }
+        localStorage.setItem('personalInfo', JSON.stringify(values))
         return navigate('/experiences')
       })}
       className="flex flex-col"
@@ -54,7 +65,6 @@ const PersonalInfoForm = () => {
         <div className=" w-[46%]">
           <div className=" mb-2">
             <Input
-              value={''}
               isSubmitted={isSubmitted}
               errors={errors['name']}
               type={'text'}
@@ -88,7 +98,6 @@ const PersonalInfoForm = () => {
         <div className=" w-[46%]">
           <div className=" mb-2">
             <Input
-              value={''}
               formCount={undefined}
               isSubmitted={isSubmitted}
               errors={errors['lastname']}
@@ -155,14 +164,17 @@ const PersonalInfoForm = () => {
             } ${
               errors['aboutme'] &&
               isSubmitted &&
-              'border-[#EF5050] focus:border'
+              'border-[#EF5050] focus:outline-none focus:border'
             }
-          ${!errors['aboutme'] && isSubmitted && 'border-[#98E37E]'}`}
+            ${
+              !errors['aboutme'] &&
+              isSubmitted &&
+              'border-[#98E37E] focus:outline-none focus:border'
+            }`}
             id={`aboutme`}
             placeholder={'ზოგადი ინფო შენ შესახებ'}
             rows={4}
-            {...(register(`aboutme`),
-            {
+            {...register(`aboutme`, {
               onChange(e) {
                 infoCtx.infoHandler({
                   name: `aboutme`,
@@ -179,7 +191,6 @@ const PersonalInfoForm = () => {
       <div className=" mb-7">
         <div className=" mb-2">
           <Input
-            value={''}
             formCount={undefined}
             isSubmitted={isSubmitted}
             errors={errors['email']}
@@ -209,7 +220,6 @@ const PersonalInfoForm = () => {
       <div>
         <div className=" mb-2">
           <Input
-            value={''}
             formCount={undefined}
             isSubmitted={isSubmitted}
             errors={errors['phoneNumber']}
@@ -221,6 +231,10 @@ const PersonalInfoForm = () => {
             register={register('phoneNumber', {
               required: {
                 value: true,
+                message: 'უნდა აკმაყოფილებდეს ქართული მობილურის ნომრის ფორმატს',
+              },
+              pattern: {
+                value: /^\+995\s5\d{2}\s\d{2}\s\d{2}\s\d{2}$/,
                 message: 'უნდა აკმაყოფილებდეს ქართული მობილურის ნომრის ფორმატს',
               },
             })}
