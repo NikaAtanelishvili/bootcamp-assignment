@@ -6,6 +6,8 @@ export interface FileInputProps {
   label: string
   name: string
   id: string
+  errors: any
+  isSubmitted: boolean
   formCount: number | undefined
   placeholder: string
   register: {
@@ -29,7 +31,9 @@ const FileInput: React.FC<FileInputProps> = props => {
 
       <label
         htmlFor={props.id}
-        className="  cursor-pointer w-[107px] h-7 bg-[#0E80BF] rounded font-Helvetica font-normal text-[#FFFFFF] text-sm leading-[17px] flex items-center justify-center"
+        className={`  cursor-pointer w-[107px] h-7 bg-[#0E80BF] rounded font-Helvetica font-normal text-[#FFFFFF] text-sm leading-[17px] flex items-center justify-center ${
+          props.errors && props.isSubmitted && 'bg-[#E52F2F]'
+        } ${!props.errors && props.isSubmitted && 'bg-[#98E37E]'}`}
       >
         ატვირთვა
       </label>
@@ -39,11 +43,12 @@ const FileInput: React.FC<FileInputProps> = props => {
         id={props.id}
         onChange={e => {
           props.register.onChange(e)
-          const url = URL.createObjectURL(e.target.files![0])
+
+          const file = e.target.files?.[0]
 
           infoCtx.infoHandler({
             name: props.name,
-            value: url,
+            value: file,
             formCount: props.formCount,
           })
         }}
