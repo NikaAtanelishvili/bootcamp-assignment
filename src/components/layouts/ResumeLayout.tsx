@@ -22,8 +22,10 @@ interface EducationType {
 
 const ResumeLayout: React.FC = () => {
   const infoCtx = useContext(InfoContext)
-
-  // const imageURL = URL.createObjectURL(infoCtx.image[0])
+  let imageURL
+  if (infoCtx.image) {
+    imageURL = URL.createObjectURL(infoCtx.image)
+  }
 
   return (
     <div className=" pl-[60px] pr-[60px] pt-[68px] pb-11 w-full h-full bg-[#FFFFFF] relative">
@@ -74,7 +76,7 @@ const ResumeLayout: React.FC = () => {
 
         <div className=" w-[246px] h-[246px] top-[48px] right-[75px] ">
           <img
-            src={'daw'}
+            src={imageURL}
             className="rounded-[50%]"
             alt="profile"
             width="246px"
