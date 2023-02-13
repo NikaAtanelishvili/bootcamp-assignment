@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 
 import { ChangeHandler } from 'react-hook-form'
-import { nanoid } from 'nanoid'
 
 import { InfoContext } from 'context'
 
@@ -100,7 +99,7 @@ const DegreeSelect: React.FC<SelectProps> = props => {
 
                       setDropdownStatus(false)
                     }}
-                    key={nanoid()}
+                    key={Math.random()}
                     className=" cursor-pointer py-[10px] pl-4 bg-[#FFFFFF] font-normal font-Helvetica text-[#1A1A1A] text-base leading-[21px] hover:bg-[#C3DCEE]"
                   >
                     {degree.title}
