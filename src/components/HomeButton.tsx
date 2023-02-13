@@ -8,12 +8,13 @@ const HomeButton: React.FC = () => {
 
   const clearAllDataHandler = () => {
     infoCtx.clearDataHandler()
+    localStorage.clear()
   }
 
   return (
     <div>
       <Link
-        className=" h-10 w-10 flex justify-center items-center rounded-[50%] bg-[#F9F9F9]"
+        className=" h-10 w-10 flex justify-center items-center rounded-[50%] bg-[#FFFFFF]"
         to="/"
         onClick={clearAllDataHandler}
       >
